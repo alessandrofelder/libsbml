@@ -25,7 +25,7 @@ jobs:
       run: unzip dependencies.zip
       
     - name: Prepend dependencies to Path
-      run: echo "libSBML Dependencies-1.0.0-b1-win64/" >> $GITHUB_PATH
+      run: echo "./libSBML Dependencies-1.0.0-b1-win64/" >> $GITHUB_PATH
       
     - name: Show Path
       run: echo $GITHUB_PATH
