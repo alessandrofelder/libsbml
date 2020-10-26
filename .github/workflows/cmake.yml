@@ -22,12 +22,15 @@ jobs:
       run: curl -L https://sourceforge.net/projects/sbml/files/libsbml/win-dependencies/libSBML_dependencies_vs15_release_x64.zip/download > dependencies.zip
     
     - name: Unzip dependencies
+      shell: bash
       run: unzip dependencies.zip
       
     - name: Prepend dependencies to Path
+      shell: bash
       run: echo "./libSBML Dependencies-1.0.0-b1-win64/" >> $GITHUB_PATH
       
     - name: Show Path
+      shell: bash
       run: echo $GITHUB_PATH
       
     - name: Create Build Environment
