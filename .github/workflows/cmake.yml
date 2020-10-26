@@ -19,19 +19,10 @@ jobs:
 
     - name: Get dependencies
       shell: bash
-      run: curl -L https://sourceforge.net/projects/sbml/files/libsbml/win-dependencies/libSBML_dependencies_vs15_release_x64.zip/download > dependencies.zip
-    
-    - name: Unzip dependencies
-      shell: bash
-      run: unzip dependencies.zip
-      
-    - name: Prepend dependencies to Path
-      shell: bash
-      run: echo "./libSBML Dependencies-1.0.0-b1-win64/" >> $GITHUB_PATH
-      
-    - name: Show Path
-      shell: bash
-      run: ls
+      run: |
+        curl -L https://sourceforge.net/projects/sbml/files/libsbml/win-dependencies/libSBML_dependencies_vs15_release_x64.zip/download > dependencies.zip
+        unzip dependencies.zip -d dependencies
+        ls dependencies  
       
     - name: Create Build Environment
       # Some projects don't allow in-source building, so create a separate build directory
