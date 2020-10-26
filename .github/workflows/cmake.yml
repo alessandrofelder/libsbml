@@ -31,7 +31,7 @@ jobs:
       
     - name: Show Path
       shell: bash
-      run: echo $GITHUB_PATH
+      run: ls
       
     - name: Create Build Environment
       # Some projects don't allow in-source building, so create a separate build directory
