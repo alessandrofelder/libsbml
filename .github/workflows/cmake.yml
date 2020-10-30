@@ -33,7 +33,7 @@ jobs:
         unzip dependencies.zip
         mkdir dependencies
         mv libSBML\ Dependencies-1.0.0-b1-win64/* dependencies/
-        rm -r libSBML\ Dependencies-1.0.0-b1-win64/*
+        rm -r libSBML\ Dependencies-1.0.0-b1-win64/
         pwd
         ls
         echo "Github context:"
