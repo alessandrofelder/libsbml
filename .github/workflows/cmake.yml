@@ -8,23 +8,13 @@ env:
 
 jobs:
   build:
-    # The CMake configure and build commands are platform agnostic and should work equally
-    # well on Windows or Mac.  You can convert this to a matrix build if you need
-    # cross-platform coverage.
-    # See: https://docs.github.com/en/free-pro-team@latest/actions/learn-github-actions/managing-complex-workflows#using-a-build-matrix
-    runs-on: windows-latest
-
+    strategy:
+      matrix:
+        platform: [ubuntu-16.04, macos-latest, windows-latest]
+    runs-on: ${{ matrix.platform }}
+    
     steps:
     - uses: actions/checkout@v2
-  
-    - name: Print github workspace
-      run: |
-        echo "GITHUB_WORKSPACE = $GITHUB_WORKSPACE"
-        echo "github.workspace = ${{ github.workspace }}"
-        echo "pr.ref = ${{github.event.pull_request.head.ref}}"
-        echo "github.ref = ${{ github.ref }}"
-        echo "$GITHUB_CONTEXT"
-        echo ${{runner.workspace}}
         
     - name: Place pre-built windows dependencies
       shell: bash
@@ -34,11 +24,6 @@ jobs:
         mkdir dependencies
         mv libSBML\ Dependencies-1.0.0-b1-win64/* dependencies/
         rm -r libSBML\ Dependencies-1.0.0-b1-win64/
-        pwd
-        ls
-        echo "Github context:"
-        ls $GITHUB_CONTEXT
-        
           
     - name: Create Build Environment
       # Some projects don't allow in-source building, so create a separate build directory
