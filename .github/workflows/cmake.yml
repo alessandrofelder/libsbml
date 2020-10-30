@@ -32,7 +32,8 @@ jobs:
         curl -L https://sourceforge.net/projects/sbml/files/libsbml/win-dependencies/libSBML_dependencies_vs15_release_x64.zip/download > dependencies.zip
         unzip dependencies.zip
         mkdir dependencies
-        mv -r libSBML_dependencies_vs15_release_x64/* dependencies/*
+        mv libSBML_dependencies_vs15_release_x64/* dependencies/*
+        rm -r libSBML_dependencies_vs15_release_x64/
         pwd
         ls
         echo "Github context:"
