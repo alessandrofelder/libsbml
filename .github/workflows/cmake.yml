@@ -17,8 +17,10 @@ jobs:
     - uses: actions/checkout@v2
         
     - name: Place pre-built windows dependencies
+      if: ${{ matrix.platform }} == 'windows-latest'
       shell: bash
       run: |
+        echo ${{ matrix.platform }}
         curl -L https://sourceforge.net/projects/sbml/files/libsbml/win-dependencies/libSBML_dependencies_vs15_release_x64.zip/download > dependencies.zip
         unzip dependencies.zip
         mkdir dependencies
