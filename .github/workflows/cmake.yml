@@ -28,12 +28,13 @@ jobs:
         
     - name: Place pre-built windows dependencies
       shell: bash
-      working-directory: ${{runner.workspace}}/libsmbl
       run: |
         curl -L https://sourceforge.net/projects/sbml/files/libsbml/win-dependencies/libSBML_dependencies_vs15_release_x64.zip/download > dependencies.zip
         unzip dependencies.zip
         pwd
         ls
+        echo "Github context:"
+        ls $GITHUB_CONTEXT
         
           
     - name: Create Build Environment
