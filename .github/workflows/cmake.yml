@@ -20,7 +20,7 @@ jobs:
       id: cache-win-dependencies
       uses: actions/cache@v2
       with:
-        path: ~/
+        path: ./dependencies
         key: ${{ runner.os }}-dependencies
     
     - name: Place pre-built Windows dependencies
