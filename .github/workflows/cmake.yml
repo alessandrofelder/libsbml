@@ -10,14 +10,21 @@ jobs:
   build:
     strategy:
       matrix:
-        platform: [ubuntu-16.04, macos-latest, windows-latest]
+        platform: [windows-latest] # [ubuntu-16.04, macos-latest, windows-latest]
     runs-on: ${{ matrix.platform }}
     
     steps:
     - uses: actions/checkout@v2
-        
-    - name: Place pre-built windows dependencies
-      if: matrix.platform == 'windows-latest'
+    
+    - name: Cache Windows dependencies
+      id: cache-win-dependencies
+      uses: actions/cache@v2
+      with:
+        path: ~/
+        key: ${{ runner.os }}-dependencies
+    
+    - name: Place pre-built Windows dependencies
+      if: matrix.platform == 'windows-latest' && steps.cache-win-dependencies.outputs.cache-hit != 'true'
       shell: bash
       run: |
         curl -L https://sourceforge.net/projects/sbml/files/libsbml/win-dependencies/libSBML_dependencies_vs15_release_x64.zip/download > dependencies.zip
@@ -26,7 +33,7 @@ jobs:
         mv libSBML\ Dependencies-1.0.0-b1-win64/* dependencies/
         rm -r libSBML\ Dependencies-1.0.0-b1-win64/
     
-    - name: Install linux dependencies
+    - name: Install Linux dependencies
       if: matrix.platform == 'ubuntu-16.04'
       shell: bash
       run: sudo apt-get install check    
