@@ -45,8 +45,8 @@ jobs:
       shell: bash
       run: |
             sudo apt-get install check    
-            echo dpkg -L check
-            echo ls /var/lib/dpkg/info/
+            dpkg -L check
+            ls /var/lib/dpkg/info/
        
     - name: Install MacOS dependencies
       if: matrix.platform == 'macos-latest'
