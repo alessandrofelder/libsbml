@@ -31,7 +31,7 @@ jobs:
       shell: bash
       run: sudo apt-get install check    
     
-    - name: Install linux dependencies
+    - name: Install MacOS dependencies
       if: matrix.platform == 'macos-latest'
       shell: bash
       run: brew install check    
