@@ -45,7 +45,7 @@ jobs:
       shell: bash
       run: |
             sudo apt-get install check    
-            dpkg -L -V check
+            cat /var/log/dpkg.log
             ls /var/lib/dpkg/info/*check*
        
     - name: Install MacOS dependencies
