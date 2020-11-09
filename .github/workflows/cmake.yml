@@ -10,7 +10,7 @@ jobs:
   build:
     strategy:
       matrix:
-        platform: [windows-latest, ubuntu-16.04] #, macos-latest, windows-latest]
+        platform: [ubuntu-16.04] #, macos-latest, windows-latest]
     runs-on: ${{ matrix.platform }}
     
     steps:
@@ -33,7 +33,7 @@ jobs:
     
     
     - name: Cache Ubuntu dependencies
-      if: matrix.platform == 'windows-latest'
+      if: matrix.platform == 'ubuntu-16.04'
       id: cache-ubuntu-dependencies
       uses: actions/cache@v2
       with:
