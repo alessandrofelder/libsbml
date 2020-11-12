@@ -10,7 +10,7 @@ jobs:
   build:
     strategy:
       matrix:
-        platform: [ubuntu-16.04]
+        platform: [ubuntu-16.04, windows-latest, macos-latest]
     runs-on: ${{ matrix.platform }}
     
     steps:
@@ -30,18 +30,7 @@ jobs:
       run: |
         curl -L https://sourceforge.net/projects/sbml/files/libsbml/win-dependencies/libSBML_dependencies_vs15_release_x64.zip/download > dependencies.zip
         unzip dependencies.zip -d dependencies
-    
-    
-    - name: Cache Ubuntu dependencies
-      if: matrix.platform == 'ubuntu-16.04'
-      id: cache-ubuntu-dependencies
-      uses: actions/cache@v2
-      with:
-        path: |
-              /usr/include/check.h
-              /usr/include/check_stdint.h
-        key: ${{ runner.os }}-dependencies
-    
+      
     - name: Install Ubuntu dependencies
       if: matrix.platform == 'ubuntu-16.04' && steps.cache-ubuntu-dependencies.outputs.cache-hit != 'true'
       shell: bash
@@ -51,8 +40,10 @@ jobs:
     - name: Install MacOS dependencies
       if: matrix.platform == 'macos-latest'
       shell: bash
-      run: brew install check    
-    
+      run: |
+            brew install check    
+            brew install swig
+
     - name: Create Build Environment
       # Some projects don't allow in-source building, so create a separate build directory
       # We'll use this as our working directory for all subsequent commands
