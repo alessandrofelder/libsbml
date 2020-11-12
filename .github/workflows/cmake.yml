@@ -10,7 +10,7 @@ jobs:
   build:
     strategy:
       matrix:
-        platform: [ubuntu-16.04, macos-latest]
+        platform: [ubuntu-16.04, macos-latest, windows-latest]
     runs-on: ${{ matrix.platform }}
     
     steps:
@@ -21,7 +21,9 @@ jobs:
       id: cache-win-dependencies
       uses: actions/cache@v2
       with:
-        path: ./dependencies
+        path: |
+              ./dependencies
+              ./swig
         key: ${{ runner.os }}-dependencies
     
     - name: Get pre-built Windows dependencies
@@ -30,6 +32,9 @@ jobs:
       run: |
         curl -L https://sourceforge.net/projects/sbml/files/libsbml/win-dependencies/libSBML_dependencies_vs15_release_x64.zip/download > dependencies.zip
         unzip dependencies.zip -d dependencies
+        curl -L https://prdownloads.sourceforge.net/swig/swigwin-3.0.12.zip > swig.zip
+        unzip swig.zip -d swig
+        swig -version
       
     - name: Install Ubuntu dependencies
       if: matrix.platform == 'ubuntu-16.04' && steps.cache-ubuntu-dependencies.outputs.cache-hit != 'true'
