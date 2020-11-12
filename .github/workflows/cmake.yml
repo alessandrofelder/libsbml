@@ -42,7 +42,7 @@ jobs:
       shell: bash
       run: |
         swig -version
-        
+
     - name: Install Ubuntu dependencies
       if: matrix.platform == 'ubuntu-16.04' && steps.cache-ubuntu-dependencies.outputs.cache-hit != 'true'
       shell: bash
@@ -61,15 +61,24 @@ jobs:
       # We'll use this as our working directory for all subsequent commands
       run: cmake -E make_directory ${{runner.workspace}}/build
 
-    - name: Configure CMake
-      # Use a bash shell so we can use the same syntax for environment variable
-      # access regardless of the host operating system
+    - name: Configure CMake for unix based OSs
+      if: matrix.platform != 'windows-latest'
       shell: bash
       working-directory: ${{runner.workspace}}/build
       # Note the current convention is to use the -S and -B options here to specify source 
       # and build directories, but this is only available with CMake 3.13 and higher.  
       # The CMake binaries on the Github Actions machines are (as of this writing) 3.12
       run: cmake $GITHUB_WORKSPACE -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DWITH_CHECK=True -DWITH_JAVA=True
+
+
+    - name: Configure CMake for Windows
+      if: matrix.platform == 'windows-latest'
+      shell: bash
+      working-directory: ${{runner.workspace}}/build
+      # Note the current convention is to use the -S and -B options here to specify source 
+      # and build directories, but this is only available with CMake 3.13 and higher.  
+      # The CMake binaries on the Github Actions machines are (as of this writing) 3.12
+      run: cmake $GITHUB_WORKSPACE -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DWITH_CHECK=True -DWITH_JAVA=True -DWITH_SWIG="./swig/swigwin-3.0.12/"
 
     - name: Build
       working-directory: ${{runner.workspace}}/build
