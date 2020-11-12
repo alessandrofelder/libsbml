@@ -37,6 +37,12 @@ jobs:
         ls ./swig/swigwin-3.0.12/*
         echo "./swig/swigwin-3.0.12" >> $GITHUB_PATH
       
+    - name: Check for swig on windows
+      if: matrix.platform == 'windows-latest'
+      shell: bash
+      run: |
+        swig -version
+        
     - name: Install Ubuntu dependencies
       if: matrix.platform == 'ubuntu-16.04' && steps.cache-ubuntu-dependencies.outputs.cache-hit != 'true'
       shell: bash
