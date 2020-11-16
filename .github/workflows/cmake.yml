@@ -89,7 +89,7 @@ jobs:
             cmake $GITHUB_WORKSPACE -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DWITH_CHECK=True -DWITH_JAVA=True
     
     - name: Configure CMake for Windows and non-default XML_parser
-      if: matrix.platform == 'windows-latest' && matrix.xml_parser_option == '-DWITH_LIBXML'
+      if: matrix.platform == 'windows-latest' && matrix.xml_parser_option != '-DWITH_LIBXML'
       shell: bash
       working-directory: ${{runner.workspace}}/build
       # Note the current convention is to use the -S and -B options here to specify source 
