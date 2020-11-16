@@ -10,7 +10,8 @@ jobs:
   build:
     strategy:
       matrix:
-        platform: [ubuntu-16.04, macos-latest, windows-latest]
+        platform: [windows-latest]
+        xml_parser_option: ['-DWITH_LIBXML','-DWITH_XERCES','-DWITH_EXPAT']
     runs-on: ${{ matrix.platform }}
     
     steps:
@@ -77,8 +78,8 @@ jobs:
       run: cmake $GITHUB_WORKSPACE -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DWITH_CHECK=True -DWITH_JAVA=True
 
 
-    - name: Configure CMake for Windows
-      if: matrix.platform == 'windows-latest'
+    - name: Configure CMake for Windows and default XML_parser
+      if: matrix.platform == 'windows-latest' && matrix.xml_parser_option == '-DWITH_LIBXML'
       shell: bash
       working-directory: ${{runner.workspace}}/build
       # Note the current convention is to use the -S and -B options here to specify source 
@@ -86,6 +87,16 @@ jobs:
       # The CMake binaries on the Github Actions machines are (as of this writing) 3.12
       run: |
             cmake $GITHUB_WORKSPACE -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DWITH_CHECK=True -DWITH_JAVA=True
+    
+    - name: Configure CMake for Windows and non-default XML_parser
+      if: matrix.platform == 'windows-latest' && matrix.xml_parser_option == '-DWITH_LIBXML'
+      shell: bash
+      working-directory: ${{runner.workspace}}/build
+      # Note the current convention is to use the -S and -B options here to specify source 
+      # and build directories, but this is only available with CMake 3.13 and higher.  
+      # The CMake binaries on the Github Actions machines are (as of this writing) 3.12
+      run: |
+            cmake $GITHUB_WORKSPACE -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DWITH_CHECK=True -DWITH_JAVA=True -DWITH_LIBXML=False ${{matrix.xml_parser_option}}
 
     - name: Build
       working-directory: ${{runner.workspace}}/build
