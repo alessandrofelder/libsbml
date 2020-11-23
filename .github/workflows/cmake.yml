@@ -73,8 +73,6 @@ jobs:
       # We'll use this as our working directory for all subsequent commands
       run: |
            cmake -E make_directory ${{runner.workspace}}/build
-           tree 
-           ls -alR
 
     - name: Configure CMake for default XML_parser
       if: matrix.xml_parser_option == '-DWITH_LIBXML'
