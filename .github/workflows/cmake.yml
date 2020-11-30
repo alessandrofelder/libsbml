@@ -10,7 +10,7 @@ jobs:
   build:
     strategy:
       matrix:
-        platform: [windows-latest, macos-latest]
+        platform: [windows-latest, macos-latest, ubuntu-16.04]
         xml_parser_option: ['-DWITH_LIBXML','-DWITH_XERCES','-DWITH_EXPAT']
         with_namespace: ['True', 'False']
         strict: ['True', 'False']
@@ -58,6 +58,9 @@ jobs:
       shell: bash
       run: |
             sudo apt-get install check
+            # ubuntu already has swig
+            sudo apt-get install xerces-c
+            sudo apt-get install expat
 
     - name: Install MacOS dependencies
       if: matrix.platform == 'macos-latest'
