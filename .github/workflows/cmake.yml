@@ -59,7 +59,7 @@ jobs:
       run: |
             sudo apt-get install check
             # ubuntu already has swig
-            sudo apt-get install libxerces-c3.2
+            sudo apt-get install libxerces-c3.1
             sudo apt-get install expat
 
     - name: Install MacOS dependencies
