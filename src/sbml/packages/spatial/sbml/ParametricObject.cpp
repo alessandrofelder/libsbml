@@ -7,6 +7,11 @@
  * This file is part of libSBML. Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
+ * Copyright (C) 2020 jointly by the following organizations:
+ *     1. California Institute of Technology, Pasadena, CA, USA
+ *     2. University of Heidelberg, Heidelberg, Germany
+ *     3. University College London, London, UK
+ *
  * Copyright (C) 2019 jointly by the following organizations:
  * 1. California Institute of Technology, Pasadena, CA, USA
  * 2. University of Heidelberg, Heidelberg, Germany
@@ -1748,17 +1753,19 @@ int ParametricObject::compress(int level)
 {
   freeCompressed();
   unsigned char* result; int length;
-  compress_data(const_cast<char*>(mPointIndex.c_str()), mPointIndex.length(), level, result, length);
+  int ret = compress_data(const_cast<char*>(mPointIndex.c_str()), mPointIndex.length(), level, result, length);
 
-  mPointIndex = arrayToString(result, length);
-  copySampleArrays(mPointIndexCompressed, mPointIndexCompressedLength, result, length);
+  if (ret == LIBSBML_OPERATION_SUCCESS)
+  {
+      mPointIndex = arrayToString(result, length);
+      copySampleArrays(mPointIndexCompressed, mPointIndexCompressedLength, result, length);
 
-  free(result);
+      free(result);
 
-  mCompression = SPATIAL_COMPRESSIONKIND_DEFLATED;
-  mPointIndexLength = mPointIndexCompressedLength;
-
-  return LIBSBML_OPERATION_SUCCESS;
+      mCompression = SPATIAL_COMPRESSIONKIND_DEFLATED;
+      mPointIndexLength = mPointIndexCompressedLength;
+  }
+  return ret;
 }
 
 unsigned int

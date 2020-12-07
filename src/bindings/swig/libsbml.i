@@ -7,6 +7,11 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
+ * Copyright (C) 2020 jointly by the following organizations:
+ *     1. California Institute of Technology, Pasadena, CA, USA
+ *     2. University of Heidelberg, Heidelberg, Germany
+ *     3. University College London, London, UK
+ *
  * Copyright (C) 2019 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. University of Heidelberg, Heidelberg, Germany
@@ -480,7 +485,7 @@ LIBSBML_CPP_NAMESPACE_USE
 /**
  *
  * wraps "List* ASTNode::getListOfNodes(ASTNodePredicate)" function
- * as "ListWrapper<ASTNode>* ASTNode::getListOfNodes()" function
+ * as "ListWrapper<ASTNode> ASTNode::getListOfNodes()" function
  * which returns a list of all ASTNodes.
  *
  */
@@ -492,11 +497,9 @@ LIBSBML_CPP_NAMESPACE_USE
 
 %extend Model
 {
-   void renameIDs(ListWrapper<SBase>* elements, IdentifierTransformer *idTransformer)
+   void renameIDs(ListWrapper<SBase>& elements, IdentifierTransformer *idTransformer)
    {
-		if (!elements) return;
-
-		List *list = elements->getList();
+		List *list = elements.getList();
 		$self->renameIDs(list, idTransformer);
    }
 }
@@ -518,12 +521,14 @@ nested to an arbitrary depth.
 #endif
 %extend SBasePlugin
 {
-	ListWrapper<SBase>* getListOfAllElements(ElementFilter* filter=NULL)
+	ListWrapper<SBase> getListOfAllElements(ElementFilter* filter=NULL)
 	{
 		List* list = $self->getAllElements(filter);
-		return new ListWrapper<SBase>(list);
+		return ListWrapper<SBase>(list);
 	}
 }
+
+
 #ifndef SWIGRUBY
 %feature("docstring") SBase::getListOfAllElements "
 Returns an SBaseList of all child SBase objects, including those
@@ -534,12 +539,13 @@ nested to an arbitrary depth.
 #endif
 %extend SBase
 {
-	ListWrapper<SBase>* getListOfAllElements(ElementFilter* filter=NULL)
+	ListWrapper<SBase> getListOfAllElements(ElementFilter* filter=NULL)
 	{
 		List* list = $self->getAllElements(filter);
-		return new ListWrapper<SBase>(list);
+		return ListWrapper<SBase>(list);
 	}
 }
+
 
 #ifndef SWIGRUBY
 %feature("docstring") SBase::getListOfAllElementsFromPlugins "
@@ -559,12 +565,14 @@ plug-ins.
 #endif
 %extend SBase
 {
-	ListWrapper<SBase>* getListOfAllElementsFromPlugins(ElementFilter* filter=NULL)
+	ListWrapper<SBase> getListOfAllElementsFromPlugins(ElementFilter* filter=NULL)
 	{
 		List* list = $self->getAllElementsFromPlugins(filter);
-		return new ListWrapper<SBase>(list);
+		return ListWrapper<SBase>(list);
 	}
 }
+
+
 #ifndef SWIGRUBY
 
 %feature("docstring") ASTNode::getListOfNodes "
@@ -584,10 +592,10 @@ itself), and therefore should not be deleted.
 #endif
 %extend ASTNode
 {
-  ListWrapper<ASTNode>* getListOfNodes()
+  ListWrapper<ASTNode> getListOfNodes()
   {
     List *list = $self->getListOfNodes(ASTNode_true);
-    return new ListWrapper<ASTNode>(list);
+    return ListWrapper<ASTNode>(list);
   }
 }
 

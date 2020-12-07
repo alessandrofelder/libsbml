@@ -7,6 +7,11 @@
  * This file is part of libSBML.  Please visit http://sbml.org for more
  * information about SBML, and the latest version of libSBML.
  *
+ * Copyright (C) 2020 jointly by the following organizations:
+ *     1. California Institute of Technology, Pasadena, CA, USA
+ *     2. University of Heidelberg, Heidelberg, Germany
+ *     3. University College London, London, UK
+ *
  * Copyright (C) 2019 jointly by the following organizations:
  *     1. California Institute of Technology, Pasadena, CA, USA
  *     2. University of Heidelberg, Heidelberg, Germany
@@ -53,6 +58,7 @@ LIBSBML_CPP_NAMESPACE_USE
 
 CK_CPPSTART
 
+#if ( __cplusplus > 201103L  ) 
 
 START_TEST(test_Compression_SampledField_1)
 {
@@ -791,6 +797,7 @@ START_TEST(test_Compression_ParametricObject_2)
 }
 END_TEST
 
+#endif
 
 Suite *
 create_suite_Compression(void)
@@ -798,6 +805,7 @@ create_suite_Compression(void)
   Suite *suite = suite_create("Compression");
   TCase *tcase = tcase_create("Compression");
 
+#if ( __cplusplus > 201103L  ) 
 #ifdef USE_ZLIB
   tcase_add_test( tcase, test_Compression_SampledField_1);
   tcase_add_test( tcase, test_Compression_SampledField_2);
@@ -811,6 +819,7 @@ create_suite_Compression(void)
   tcase_add_test( tcase, test_Compression_SpatialPoints_5);
   tcase_add_test( tcase, test_Compression_ParametricObject_1);
   tcase_add_test( tcase, test_Compression_ParametricObject_2);
+#endif
 #endif
 
   suite_add_tcase(suite, tcase);
