@@ -57,7 +57,6 @@ jobs:
       shell: bash
       run: |
             sudo apt-get install check
-            sudo apt-get install libxerces-c3.1
             sudo apt-get install libxerces-c-dev
             sudo apt-get install expat
 
