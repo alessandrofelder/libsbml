@@ -19,7 +19,10 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     
-    - name: Cache Windows dependencies
+    ### configure the operating system ###
+    - name: Cache Windows dependencies and SWIG
+      # On Windows, the dependencies live inside the source folder, ie `.`.
+      # For the CI, we put SWIG there too, for simplicity.
       if: matrix.platform == 'windows-latest'
       id: cache-win-dependencies
       uses: actions/cache@v2
@@ -29,33 +32,37 @@ jobs:
               ./swig
         key: ${{ runner.os }}-dependencies
     
-    - name: Get pre-built Windows dependencies
+    - name: Download pre-built Windows dependencies and SWIG
       if: matrix.platform == 'windows-latest' && steps.cache-win-dependencies.outputs.cache-hit != 'true'
       shell: bash
       run: |
         curl -L https://sourceforge.net/projects/sbml/files/libsbml/win-dependencies/libSBML_dependencies_vs15_release_x64.zip/download > dependencies.zip
         unzip dependencies.zip -d dependencies
+      # Windows dependencies have to be in a subfolder called `dependencies`, directly under the git repository root.
         cp -r dependencies/libSBML\ Dependencies-1.0.0-b1-win64/* dependencies
         rm -r dependencies/libSBML*
+      # also get SWIG
         curl -L https://prdownloads.sourceforge.net/swig/swigwin-3.0.12.zip > swig.zip
         unzip swig.zip -d swig
 
-    - name: add Swig to Path (Windows)
+    - name: add SWIG to Path (Windows)
+      # this is separate from the SWIG download itself, because it needs to be added to the path also when SWIG is cached
       if: matrix.platform == 'windows-latest'
       shell: bash
       run: echo "./swig/swigwin-3.0.12" >> $GITHUB_PATH
       
     - name: Install Ubuntu dependencies
-      if: matrix.platform == 'ubuntu-16.04' && steps.cache-ubuntu-dependencies.outputs.cache-hit != 'true'
+      # ubuntu already has SWIG and libxml2 by default
+      if: matrix.platform == 'ubuntu-16.04'
       shell: bash
       run: |
             sudo apt-get install check
-            # ubuntu already has swig
             sudo apt-get install libxerces-c3.1
             sudo apt-get install libxerces-c-dev
             sudo apt-get install expat
 
     - name: Install MacOS dependencies
+      # MacOS already has libxml2 by default
       if: matrix.platform == 'macos-latest'
       shell: bash
       run: |
@@ -63,12 +70,13 @@ jobs:
             brew install swig
             brew install xerces-c
             brew install expat
-
+    
+    ### build the project ###
     - name: Create Build Environment
       run: cmake -E make_directory ${{runner.workspace}}/build
 
-    - name: Configure CMake for default XML_parser
-      if: matrix.xml_parser_option == '-DWITH_LIBXML'
+    - name: Configure CMake for default XML_parser (LIBXML2)
+      if: matrix.xml_parser_option == '-DWITH_LIBXML' # default option, no need to specify -DWITH_LIBXML=...
       shell: bash
       working-directory: ${{runner.workspace}}/build
       run: |
@@ -86,6 +94,7 @@ jobs:
       shell: bash
       run: cmake --build . --config $BUILD_TYPE
 
+    ### run tests ###
     - name: Test
       working-directory: ${{runner.workspace}}/build
       shell: bash
