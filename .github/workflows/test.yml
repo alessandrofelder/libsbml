@@ -53,8 +53,8 @@ jobs:
         path: ${{runner.workspace}}/build
         key: cache-core-build-key
 
-  dependent-build:
-    name: dependent build
+  dependent-build-with-cache:
+    name: dependent build with cache
     strategy:
       fail-fast: false
     runs-on: ubuntu-16.04
@@ -77,4 +77,20 @@ jobs:
       run: |
             ls
             echo "yep, that worked."
+
+    - name: Configure CMake
+      shell: bash
+      working-directory: ${{runner.workspace}}/build
+      run: |
+            cmake $GITHUB_WORKSPACE -DCMAKE_BUILD_TYPE=$BUILD_TYPE
+
+    - name: Build
+      working-directory: ${{runner.workspace}}/build
+      shell: bash
+      run: cmake --build . --config $BUILD_TYPE
+
+    - name: Test
+      working-directory: ${{runner.workspace}}/build
+      shell: bash
+      run: ctest -C $BUILD_TYPE
 
