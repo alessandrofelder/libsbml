@@ -47,10 +47,11 @@ jobs:
       run: ctest -C $BUILD_TYPE
 
     - name: Cache core build
+      id: cache-core-build
       uses: actions/cache@v2
       with:
         path: ${{runner.workspace}}/build
-        key: cache-core-build
+        key: cache-core-build-key
 
   dependent-build:
     name: dependent build
@@ -63,14 +64,15 @@ jobs:
     - uses: actions/checkout@v2
 
     - name: Load core build from cache
+      id: cache-core-build
       uses: actions/cache@v2
       with:
         path: ${{runner.workspace}}/build
-        key: cache-core-build
+        key: cache-core-build-key
 
     - name: Check that caching worked
       if: steps.cache-core-build.outputs.cache-hit == 'true'
-      working-directory: ${{runner.workspace}}/build
+      working-directory: ${{runner.workspace}}/build  
       shell: bash
       run: |
             ls
