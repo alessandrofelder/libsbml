@@ -48,11 +48,9 @@ jobs:
 
     - name: Cache core build
       uses: actions/cache@v2
-      env:
-        cache-name: cache-core-build
       with:
         path: ${{runner.workspace}}/build
-        key: cache-core-build-key
+        key: cache-core-build
 
   dependent-build:
     name: dependent build
@@ -68,11 +66,13 @@ jobs:
       uses: actions/cache@v2
       with:
         path: ${{runner.workspace}}/build
-        key: cache-core-build-key
+        key: cache-core-build
 
     - name: Check that caching worked
       if: steps.cache-core-build.outputs.cache-hit == 'true'
+      working-directory: ${{runner.workspace}}/build
       shell: bash
       run: |
+            ls
             echo "yep, that worked."
 
