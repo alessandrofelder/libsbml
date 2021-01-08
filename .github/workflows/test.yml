@@ -29,16 +29,19 @@ jobs:
     - name: Create Build Environment
       run: cmake -E make_directory ${{runner.workspace}}/build
 
+    - name: Create ccache directory
+      run: cmake -E make_directory ${{runner.workspace}}/ccache
+
     - name: Configure CMake
       shell: bash
       working-directory: ${{runner.workspace}}/build
       run: |
-            cmake $GITHUB_WORKSPACE -DCMAKE_BUILD_TYPE=$BUILD_TYPE
+            ccache -d ${{runner.workspace}}/ccache cmake $GITHUB_WORKSPACE -DCMAKE_BUILD_TYPE=$BUILD_TYPE
             
     - name: Build
       working-directory: ${{runner.workspace}}/build
       shell: bash
-      run: cmake --build . --config $BUILD_TYPE
+      run: ccache --directory= cmake --build . --config $BUILD_TYPE
 
     ### run tests on core build###
     - name: Test
@@ -46,15 +49,17 @@ jobs:
       shell: bash
       run: ctest -C $BUILD_TYPE
 
-    - name: Cache core build
+    - name: Cache core build and ccache
       id: cache-core-build
       uses: actions/cache@v2
       with:
-        path: ${{runner.workspace}}/build
+        path: |
+              ${{runner.workspace}}/build
+              ${{runner.workspace}}/ccache
         key: cache-core-build-key
 
-  dependent-build-with-cache:
-    name: dependent build with cache
+  dependent-build-without-ccache:
+    name: dependent build without ccache
     strategy:
       fail-fast: false
     runs-on: ubuntu-16.04
@@ -63,19 +68,37 @@ jobs:
     steps:
     - uses: actions/checkout@v2
 
+    - name: Install Ubuntu dependencies
+      # ubuntu already has SWIG and libxml2 by default
+      if: matrix.platform == 'ubuntu-16.04'
+      shell: bash
+      run: |
+            sudo apt-get install check
+            sudo apt-get install ccache
+
     - name: Load core build from cache
       id: cache-core-build
       uses: actions/cache@v2
       with:
-        path: ${{runner.workspace}}/build
+        path: |
+              ${{runner.workspace}}/build
+              ${{runner.workspace}}/ccache
         key: cache-core-build-key
 
-    - name: Check that caching worked
+    - name: Check that build caching worked
       if: steps.cache-core-build.outputs.cache-hit == 'true'
       working-directory: ${{runner.workspace}}/build  
       shell: bash
       run: |
-            ls
+            ls -a
+            echo "yep, that worked."
+
+    - name: Check that ccache caching worked
+      if: steps.cache-core-build.outputs.cache-hit == 'true'
+      working-directory: ${{runner.workspace}}/ccache  
+      shell: bash
+      run: |
+            ls -a
             echo "yep, that worked."
 
     - name: Configure CMake
@@ -93,4 +116,3 @@ jobs:
       working-directory: ${{runner.workspace}}/build
       shell: bash
       run: ctest -C $BUILD_TYPE
-
