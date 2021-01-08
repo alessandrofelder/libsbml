@@ -63,6 +63,13 @@ jobs:
     
     steps:
     - uses: actions/checkout@v2
+
+    - name: Load core build from cache
+      uses: actions/cache@v2
+      with:
+        path: ${{runner.workspace}}/build
+        key: cache-core-build-key
+
     - name: Check that caching worked
       if: steps.cache-core-build.outputs.cache-hit == 'true'
       shell: bash
