@@ -54,7 +54,15 @@ jobs:
         path: ${{runner.workspace}}/build
         key: cache-core-build-key
 
-dependent-build:
+  dependent-build:
+    name: dependent build
+    strategy:
+      fail-fast: false
+    runs-on: ubuntu-16.04
+    
+    steps:
+    - uses: actions/checkout@v2    
+    
     - name: Check that caching worked
       if: steps.cache-core-build.outputs.cache-hit != 'true'
       shell: bash
