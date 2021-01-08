@@ -1,0 +1,63 @@
+name: CMake
+
+on: push
+
+env:
+  BUILD_TYPE: Release
+
+jobs:
+  core-build:
+    name: core build
+    strategy:
+      fail-fast: false
+    runs-on: ubuntu-16.04
+    
+    steps:
+    - uses: actions/checkout@v2
+    
+    
+    - name: Install Ubuntu dependencies
+      # ubuntu already has SWIG and libxml2 by default
+      if: matrix.platform == 'ubuntu-16.04'
+      shell: bash
+      run: |
+            sudo apt-get install check
+            sudo apt-get install ccache
+
+    
+    ### build the project ###
+    - name: Create Build Environment
+      run: cmake -E make_directory ${{runner.workspace}}/build
+
+    - name: Configure CMake
+      shell: bash
+      working-directory: ${{runner.workspace}}/build
+      run: |
+            cmake $GITHUB_WORKSPACE -DCMAKE_BUILD_TYPE=$BUILD_TYPE
+            
+    - name: Build
+      working-directory: ${{runner.workspace}}/build
+      shell: bash
+      run: cmake --build . --config $BUILD_TYPE
+
+    ### run tests on core build###
+    - name: Test
+      working-directory: ${{runner.workspace}}/build
+      shell: bash
+      run: ctest -C $BUILD_TYPE
+
+    - name: Cache core build
+      uses: actions/cache@v2
+      env:
+        cache-name: cache-core-build
+      with:
+        path: ${{runner.workspace}}/build
+        key: cache-core-build-key
+
+dependent-build:
+    - name: Check that caching worked
+      if: steps.cache-core-build.outputs.cache-hit != 'true'
+      shell: bash
+      run: |
+            echo "yep, that worked."
+
