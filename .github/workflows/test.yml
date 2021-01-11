@@ -15,20 +15,15 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     
-    
     - name: Install Ubuntu dependencies
       # ubuntu already has SWIG and libxml2 by default
       shell: bash
       run: |
             sudo apt-get install -y check ccache
 
-    
     ### build the project ###
     - name: Create Build Environment
       run: cmake -E make_directory ${{runner.workspace}}/build
-
-    - name: Create ccache directory
-      run: cmake -E make_directory ${{runner.workspace}}/ccache
 
     - name: Configure CMake
       shell: bash
@@ -39,7 +34,7 @@ jobs:
     - name: Build
       working-directory: ${{runner.workspace}}/build
       shell: bash
-      run: ccache -d ${{runner.workspace}}/ccache cmake --build . --config $BUILD_TYPE
+      run: ccache cmake --build . --config $BUILD_TYPE
 
     ### run tests on core build###
     - name: Test
@@ -53,7 +48,7 @@ jobs:
       with:
         path: |
               ${{runner.workspace}}/build
-              ${{runner.workspace}}/ccache
+              ~/.ccache
         key: cache-core-build-key
 
   dependent-build-without-ccache:
@@ -78,7 +73,7 @@ jobs:
       with:
         path: |
               ${{runner.workspace}}/build
-              ${{runner.workspace}}/ccache
+              ~/.ccache
         key: cache-core-build-key
 
     - name: Check that build caching worked
@@ -95,7 +90,7 @@ jobs:
       shell: bash
       run: |
             ls -a
-            echo "yep, that worked."
+            echo "yep, .ccache worked."
 
     - name: Configure CMake
       shell: bash
@@ -106,7 +101,7 @@ jobs:
     - name: Build
       working-directory: ${{runner.workspace}}/build
       shell: bash
-      run: cmake --build . --config $BUILD_TYPE
+      run: ccache cmake --build . --config $BUILD_TYPE
 
     - name: Test
       working-directory: ${{runner.workspace}}/build
