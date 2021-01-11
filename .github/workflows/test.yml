@@ -21,8 +21,7 @@ jobs:
       if: matrix.platform == 'ubuntu-16.04'
       shell: bash
       run: |
-            sudo apt-get install check
-            sudo apt-get install ccache
+            sudo apt-get install -y check ccache
 
     
     ### build the project ###
@@ -36,12 +35,12 @@ jobs:
       shell: bash
       working-directory: ${{runner.workspace}}/build
       run: |
-            ccache -d ${{runner.workspace}}/ccache cmake $GITHUB_WORKSPACE -DCMAKE_BUILD_TYPE=$BUILD_TYPE
+           cmake $GITHUB_WORKSPACE -DCMAKE_BUILD_TYPE=$BUILD_TYPE
             
     - name: Build
       working-directory: ${{runner.workspace}}/build
       shell: bash
-      run: ccache --directory= cmake --build . --config $BUILD_TYPE
+      run: ccache -d ${{runner.workspace}}/ccache cmake --build . --config $BUILD_TYPE
 
     ### run tests on core build###
     - name: Test
@@ -73,8 +72,7 @@ jobs:
       if: matrix.platform == 'ubuntu-16.04'
       shell: bash
       run: |
-            sudo apt-get install check
-            sudo apt-get install ccache
+            sudo apt-get install -y check ccache
 
     - name: Load core build from cache
       id: cache-core-build
