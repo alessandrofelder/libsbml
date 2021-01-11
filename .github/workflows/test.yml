@@ -18,7 +18,6 @@ jobs:
     
     - name: Install Ubuntu dependencies
       # ubuntu already has SWIG and libxml2 by default
-      if: matrix.platform == 'ubuntu-16.04'
       shell: bash
       run: |
             sudo apt-get install -y check ccache
