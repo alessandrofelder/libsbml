@@ -1,4 +1,4 @@
-name: CMake (rapid build on push)
+name: CMake (CentOS rapid build on push)
 
 on: [push]
 
@@ -31,6 +31,7 @@ jobs:
       - name: Install Centos dependencies
         shell: bash
         run: |
+          yum update
           yum group install "Development Tools"
       
       ### build the project ###
