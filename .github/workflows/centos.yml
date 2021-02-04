@@ -27,8 +27,12 @@ jobs:
         shell: bash
         run: |
           yum install -y swig libxml2-devel check-devel
-          yum group install "Development Tools"
 
+      - name: Install Centos dependencies
+        shell: bash
+        run: |
+          yum group install "Development Tools"
+      
       ### build the project ###
       - name: Create Build Environment
         run: cmake -E make_directory ${{runner.workspace}}/build
