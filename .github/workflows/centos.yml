@@ -27,7 +27,7 @@ jobs:
         shell: bash
         run: |
           yum -y update
-          yum -y install check-devel cmake java-devel libxml2-devel swig python
+          yum -y install check-devel cmake java-devel libxml2-devel swig python36
           yum -y group install "Development Tools"
           cmake --version
 
