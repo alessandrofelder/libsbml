@@ -1,0 +1,52 @@
+name: CMake (rapid build on push)
+
+on: [push]
+
+env:
+  BUILD_TYPE: Release
+
+jobs:
+  build:
+    name: ${{ matrix.platform }}, Parser option ${{ matrix.xml_parser_option }}, with namespaces ${{ matrix.with_namespace}}, strict includes ${{ matrix.with_namespace }}, with examples ${{ matrix.with_examples}}, package option ${{ matrix.package_option}}
+    strategy:
+      fail-fast: false
+      matrix:
+        platform: [ubuntu-latest]
+        xml_parser_option: ["-DWITH_LIBXML"]
+        with_namespace: ["True"]
+        strict: ["True"]
+        with_examples: ["True"]
+        package_option: ["-DWITH_ALL_PACKAGES=ON"]
+        container: [centos7]
+    runs-on: ${{ matrix.platform }}
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Install Centos dependencies
+        if: matrix.platform == 'ubuntu-16.04'
+        shell: bash
+        run: |
+          yum install swig libxml2-devel
+          yum group install "Development Tools"
+
+      ### build the project ###
+      - name: Create Build Environment
+        run: cmake -E make_directory ${{runner.workspace}}/build
+
+      - name: Configure CMake for default XML_parser (LIBXML2)
+        shell: bash
+        working-directory: ${{runner.workspace}}/build
+        run: |
+          cmake $GITHUB_WORKSPACE ${{ matrix.package_option }} -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DWITH_CHECK=True -DWITH_JAVA=True -DWITH_CPP_NAMESPACE=${{matrix.with_namespace}} -DLIBSBML_USE_STRICT_INCLUDES=${{matrix.strict}} -DWITH_EXAMPLES=${{matrix.with_examples}}
+
+      - name: Build
+        working-directory: ${{runner.workspace}}/build
+        shell: bash
+        run: cmake --build . --config $BUILD_TYPE --parallel 4
+
+      ### run tests ###
+      - name: Test
+        working-directory: ${{runner.workspace}}/build
+        shell: bash
+        run: ctest -C $BUILD_TYPE
