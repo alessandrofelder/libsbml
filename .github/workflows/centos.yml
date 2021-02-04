@@ -32,7 +32,8 @@ jobs:
         shell: bash
         run: |
           yum update
-          yum group install "Development Tools"
+          echo yum group list
+          yum group install -y "Development Tools"
       
       ### build the project ###
       - name: Create Build Environment
