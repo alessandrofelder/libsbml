@@ -17,7 +17,7 @@ jobs:
         strict: ["True"]
         with_examples: ["True"]
         package_option: ["-DWITH_ALL_PACKAGES=ON"]
-        container: ["node:centos"]
+        container: ["centos:7"]
     runs-on: ${{ matrix.platform }}
     container: ${{ matrix.container }}
     steps:
