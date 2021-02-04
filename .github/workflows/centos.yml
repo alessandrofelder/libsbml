@@ -34,21 +34,14 @@ jobs:
           yum -y update
           yum -y group install "Development Tools"
 
-      - name: Setup tmate session
-        uses: mxschmitt/action-tmate@v3
-
-      - name: Create build folder and Configure CMake for default XML_parser (LIBXML2)
+      - name: configure and build
         shell: bash
         run: |
           cd ..
           mkdir build
           cd build
           cmake ../libsbml ${{ matrix.package_option }} -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DWITH_CHECK=True -DWITH_JAVA=True -DWITH_CPP_NAMESPACE=${{matrix.with_namespace}} -DLIBSBML_USE_STRICT_INCLUDES=${{matrix.strict}} -DWITH_EXAMPLES=${{matrix.with_examples}}
-
-      - name: Build
-        working-directory: ${{runner.workspace}}/build
-        shell: bash
-        run: cmake --build . --config $BUILD_TYPE --parallel 4
+          cmake --build . --config $BUILD_TYPE --parallel 4
 
       ### run tests ###
       - name: Test
