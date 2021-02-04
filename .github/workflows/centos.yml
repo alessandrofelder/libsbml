@@ -19,7 +19,7 @@ jobs:
         package_option: ["-DWITH_ALL_PACKAGES=ON"]
         container: [centos7]
     runs-on: ${{ matrix.platform }}
-
+    container: ${{ matrix.container }}
     steps:
       - uses: actions/checkout@v2
 
