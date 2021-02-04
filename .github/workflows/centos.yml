@@ -26,14 +26,13 @@ jobs:
       - name: Install Centos dependencies
         shell: bash
         run: |
-          yum install -y swig libxml2-devel check-devel
+          yum -y install swig libxml2-devel check-devel
 
       - name: Install Centos dependencies
         shell: bash
         run: |
-          yum update
-          echo yum group list
-          yum group install -y "Development Tools"
+          yum -y update
+          yum -y group install "Development Tools"
       
       ### build the project ###
       - name: Create Build Environment
