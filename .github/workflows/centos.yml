@@ -24,10 +24,9 @@ jobs:
       - uses: actions/checkout@v2
 
       - name: Install Centos dependencies
-        if: matrix.platform == 'ubuntu-16.04'
         shell: bash
         run: |
-          yum install swig libxml2-devel
+          yum install swig libxml2-devel check-devel
           yum group install "Development Tools"
 
       ### build the project ###
