@@ -7,7 +7,7 @@ env:
 
 jobs:
   build:
-    name: ${{ matrix.container }} inside ${{ matrix.platform }}, Parser option ${{ matrix.xml_parser_option }}, with namespaces ${{ matrix.with_namespace}}, strict includes ${{ matrix.with_namespace }}, with examples ${{ matrix.with_examples}}, package option ${{ matrix.package_option}}
+    name: ${{ matrix.container }} within ${{ matrix.platform }}, Parser option ${{ matrix.xml_parser_option }}, with namespaces ${{ matrix.with_namespace}}, strict includes ${{ matrix.with_namespace }}, with examples ${{ matrix.with_examples}}, package option ${{ matrix.package_option}}
     strategy:
       fail-fast: false
       matrix:
@@ -17,7 +17,7 @@ jobs:
         strict: ["True"]
         with_examples: ["True"]
         package_option: ["-DWITH_ALL_PACKAGES=ON"]
-        container: ["centos:centos7"]
+        container: ["centos:centos8"]
     runs-on: ${{ matrix.platform }}
     container: ${{ matrix.container }}
     steps:
@@ -27,8 +27,9 @@ jobs:
         shell: bash
         run: |
           yum -y update
-          yum -y install swig libxml2-devel check-devel cmake java-devel
+          yum -y install check-devel cmake java-devel libxml2-devel swig
           yum -y group install "Development Tools"
+          cmake --version
 
       - name: configure and build
         shell: bash
