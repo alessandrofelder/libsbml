@@ -29,7 +29,6 @@ jobs:
           yum -y update
           yum -y install check-devel cmake java-devel libxml2-devel swig python36
           yum -y group install "Development Tools"
-          cmake --version
 
       - name: configure and build
         shell: bash
@@ -38,7 +37,7 @@ jobs:
           mkdir build
           cd build
           cmake ../libsbml ${{ matrix.package_option }} -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DWITH_CHECK=True -DWITH_JAVA=True -DWITH_CPP_NAMESPACE=${{matrix.with_namespace}} -DLIBSBML_USE_STRICT_INCLUDES=${{matrix.strict}} -DWITH_EXAMPLES=${{matrix.with_examples}}
-          cmake --build . --config $BUILD_TYPE --parallel 4
+          cmake --build . --config $BUILD_TYPE
 
       ### run tests ###
       - name: Test
