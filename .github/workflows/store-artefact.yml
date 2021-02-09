@@ -127,22 +127,62 @@ jobs:
           cpack -G ZIP -C $BUILD_TYPE 
           mv libSBML-5.19.1-win64.zip libSBML-5.19.1-win64-nightly.zip
 
-      - name: Upload Windows64 installer artifact
-        if: matrix.platform == 'windows-latest'
-        uses: actions/upload-artifact@v2
-        with:
-          name: Win64 installer
-          path: ${{runner.workspace}}/build/libSBML-5.19.1-win64-nightly.zip
-          retention-days: 1
-
-      - name: Package executable (Unix-based)
-        if: matrix.platform != 'windows-latest'
+      - name: Package executable (Ubuntu)
+        if: matrix.platform == 'ubuntu-latest'
         working-directory: ${{runner.workspace}}/build
         shell: bash
         run: |
           cpack -G ZIP -C $BUILD_TYPE
+          mv libSBML-5.19.1-Linux.zip libSBML-5.19.1-Linux-nightly.zip
           cpack -G TGZ -C $BUILD_TYPE
+          mv libSBML-5.19.1-Linux.tar.gz libSBML-5.19.1-Linux-nightly.tar.gz
 
-      - name: Setup tmate session
-        if: matrix.platform != 'windows-latest'
-        uses: mxschmitt/action-tmate@v3
+      - name: Package executable (MacOS)
+        if: matrix.platform == 'ubuntu-latest'
+        working-directory: ${{runner.workspace}}/build
+        shell: bash
+        run: |
+          cpack -G ZIP -C $BUILD_TYPE
+          mv libSBML-5.19.1-Darwin.zip libSBML-5.19.1-Darwin-nightly.zip
+          cpack -G TGZ -C $BUILD_TYPE
+          mv libSBML-5.19.1-Darwin.tar.gz libSBML-5.19.1-Darwin-nightly.tar.gz
+
+      - name: Upload Windows binary archive
+        if: matrix.platform == 'windows-latest'
+        uses: actions/upload-artifact@v2
+        with:
+          name: Windows nightly
+          path: ${{runner.workspace}}/build/libSBML-5.19.1-win64-nightly.zip
+          retention-days: 1
+
+      - name: Upload Ubuntu binary archive (zip)
+        if: matrix.platform == 'ubuntu-latest'
+        uses: actions/upload-artifact@v2
+        with:
+          name: Ubuntu nightly (zip)
+          path: ${{runner.workspace}}/build/libSBML-5.19.1-Linux-nightly.zip
+          retention-days: 1
+
+      - name: Upload Ubuntu binary archive (tar.gz)
+        if: matrix.platform == 'ubuntu-latest'
+        uses: actions/upload-artifact@v2
+        with:
+          name: Ubuntu nightly (tar.gz)
+          path: ${{runner.workspace}}/build/libSBML-5.19.1-Linux-nightly.tar.gz
+          retention-days: 1
+
+      - name: Upload MacOS binary archive (zip)
+        if: matrix.platform == 'macos-latest'
+        uses: actions/upload-artifact@v2
+        with:
+          name: MacOS nightly (zip)
+          path: ${{runner.workspace}}/build/libSBML-5.19.1-Darwin-nightly.zip
+          retention-days: 1
+
+      - name: Upload MacOS binary archive (zip)
+        if: matrix.platform == 'macos-latest'
+        uses: actions/upload-artifact@v2
+        with:
+          name: MacOS nightly (tar.gz)
+          path: ${{runner.workspace}}/build/libSBML-5.19.1-Darwin-nightly.zip
+          retention-days: 1
