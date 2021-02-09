@@ -112,24 +112,37 @@ jobs:
         # TODO make the below version-independed and OS-independent!
         run: |
           cmake --build . --config $BUILD_TYPE --parallel 4
-          cpack -G ZIP -C $BUILD_TYPE 
-        
+
       ### run tests ###
       - name: Test
         working-directory: ${{runner.workspace}}/build
         shell: bash
         run: ctest -C $BUILD_TYPE
 
-      - name: Compress executable (Windows)
+      - name: Package executable (Windows)
         if: matrix.platform == 'windows-latest'
         working-directory: ${{runner.workspace}}/build
         shell: bash
-        run: mv libSBML-5.19.1-win64.exe libSBML-5.19.1-win64-nightly.exe
+        run: |
+          cpack -G ZIP -C $BUILD_TYPE 
+          mv libSBML-5.19.1-win64.zip libSBML-5.19.1-win64-nightly.zip
 
       - name: Upload Windows64 installer artifact
         if: matrix.platform == 'windows-latest'
         uses: actions/upload-artifact@v2
         with:
           name: Win64 installer
-          path: ${{runner.workspace}}/build/libSBML-5.19.1-win64-nightly.exe
+          path: ${{runner.workspace}}/build/libSBML-5.19.1-win64-nightly.zip
           retention-days: 1
+
+      - name: Package executable (Unix-based)
+        if: matrix.platform != 'windows-latest'
+        working-directory: ${{runner.workspace}}/build
+        shell: bash
+        run: |
+          cpack -G ZIP -C $BUILD_TYPE
+          cpack -G TGZ -C $BUILD_TYPE
+
+      - name: Setup tmate session
+        if: matrix.platform != 'windows-latest'
+        uses: mxschmitt/action-tmate@v3
