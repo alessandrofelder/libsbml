@@ -121,7 +121,7 @@ jobs:
         run: ctest -C $BUILD_TYPE
 
       - name: Compress executable (Windows)
-        if: matrix.platform == windows-latest
+        if: matrix.platform == 'windows-latest'
         working-directory: ${{runner.workspace}}/build
         shell: bash
         run: mv libSBML-5.19.1-win64.exe libSBML-5.19.1-win64-nightly.exe
