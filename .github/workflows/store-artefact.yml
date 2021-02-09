@@ -178,10 +178,10 @@ jobs:
           path: ${{runner.workspace}}/build/libSBML-5.19.1-Darwin-nightly.zip
           retention-days: 1
 
-      - name: Upload MacOS binary archive (zip)
+      - name: Upload MacOS binary archive (tar.gz)
         if: matrix.platform == 'macos-latest'
         uses: actions/upload-artifact@v2
         with:
           name: MacOS nightly (tar.gz)
-          path: ${{runner.workspace}}/build/libSBML-5.19.1-Darwin-nightly.zip
+          path: ${{runner.workspace}}/build/libSBML-5.19.1-Darwin-nightly.tar.gz
           retention-days: 1
