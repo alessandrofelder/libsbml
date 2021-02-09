@@ -1,9 +1,9 @@
 name: CMake (create and store Windows artefact)
 
-on: 
+on:
   push:
   schedule:
-    - cron:  '55 10 * * *'
+    - cron: "55 10 * * *"
 
 env:
   BUILD_TYPE: Release
@@ -14,7 +14,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        platform: [windows-latest, macos-latest]
+        platform: [windows-latest, macos-latest, ubuntu-16.04]
         xml_parser_option: ["-DWITH_LIBXML"]
         with_namespace: ["True"]
         strict: ["True"]
@@ -111,16 +111,23 @@ jobs:
         shell: bash
         # TODO make the below version-independed and OS-independent!
         run: |
-          cmake --build . --config $BUILD_TYPE --parallel 4 --target PACKAGE
-          mv libSBML-5.19.1-win64.exe libSBML-5.19.1-win64-nightly.exe
-
+          cmake --build . --config $BUILD_TYPE --parallel 4
+          cpack -G ZIP -C $BUILD_TYPE 
+        
       ### run tests ###
       - name: Test
         working-directory: ${{runner.workspace}}/build
         shell: bash
         run: ctest -C $BUILD_TYPE
 
+      - name: Compress executable (Windows)
+        if: matrix.platform == windows-latest
+        working-directory: ${{runner.workspace}}/build
+        shell: bash
+        run: mv libSBML-5.19.1-win64.exe libSBML-5.19.1-win64-nightly.exe
+
       - name: Upload Windows64 installer artifact
+        if: matrix.platform == 'windows-latest'
         uses: actions/upload-artifact@v2
         with:
           name: Win64 installer
