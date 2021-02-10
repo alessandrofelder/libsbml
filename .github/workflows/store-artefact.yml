@@ -134,7 +134,7 @@ jobs:
           echo "ARTEFACT_NAME_SUFFIX='-stable-packages'" >> "${GITHUB_ENV}"
 
       - name: Package executable (Ubuntu)
-        if: matrix.platform == 'ubuntu-latest'
+        if: matrix.platform == 'ubuntu-16.04'
         working-directory: ${{runner.workspace}}/build
         shell: bash
         run: |
@@ -144,7 +144,7 @@ jobs:
           mv libSBML-5.19.1-Linux.tar.gz libSBML-5.19.1-Linux-nightly.tar.gz
 
       - name: Package executable (MacOS)
-        if: matrix.platform == 'ubuntu-latest'
+        if: matrix.platform == 'ubuntu-16.04'
         working-directory: ${{runner.workspace}}/build
         shell: bash
         run: |
@@ -162,7 +162,7 @@ jobs:
           retention-days: 1
 
       - name: Upload Ubuntu binary archive (zip)
-        if: matrix.platform == 'ubuntu-latest'
+        if: matrix.platform == 'ubuntu-16.04'
         uses: actions/upload-artifact@v2
         with:
           name: Ubuntu nightly (zip)
@@ -170,7 +170,7 @@ jobs:
           retention-days: 1
 
       - name: Upload Ubuntu binary archive (tar.gz)
-        if: matrix.platform == 'ubuntu-latest'
+        if: matrix.platform == 'ubuntu-16.04'
         uses: actions/upload-artifact@v2
         with:
           name: Ubuntu nightly (tar.gz)
