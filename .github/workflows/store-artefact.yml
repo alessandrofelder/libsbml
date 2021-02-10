@@ -148,6 +148,7 @@ jobs:
           name: Windows nightly
           path: ${{runner.workspace}}/build/libSBML-5.19.1-win64-nightly.zip
           retention-days: 1
+          if-no-files-found: error
 
       #### Mac OS ####
       - name: Package executable (MacOS)
@@ -167,6 +168,7 @@ jobs:
           name: MacOS nightly (zip)
           path: ${{runner.workspace}}/build/libSBML-5.19.1-Darwin-nightly.zip
           retention-days: 1
+          if-no-files-found: error
 
       - name: Upload MacOS binary archive (tar.gz)
         if: matrix.platform == 'macos-latest'
@@ -175,6 +177,7 @@ jobs:
           name: MacOS nightly (tar.gz)
           path: ${{runner.workspace}}/build/libSBML-5.19.1-Darwin-nightly.tar.gz
           retention-days: 1
+          if-no-files-found: error
 
       #### Ubuntu 16.04 ####
       - name: Package executable (Ubuntu 16.04)
@@ -194,6 +197,7 @@ jobs:
           name: Ubuntu nightly (zip, ${{env.ARTEFACT_NAME_SUFFIX}})
           path: ${{runner.workspace}}/build/libSBML-5.19.1-Linux-nightly${{env.ARTEFACT_NAME_SUFFIX}}.zip
           retention-days: 1
+          if-no-files-found: error
 
       - name: Upload Ubuntu binary archive (tar.gz)
         if: matrix.platform == 'ubuntu-16.04'
@@ -202,5 +206,6 @@ jobs:
           name: Ubuntu nightly (tar.gz) 
           path: ${{runner.workspace}}/build/libSBML-5.19.1-Linux-nightly${{env.ARTEFACT_NAME_SUFFIX}}.tar.gz
           retention-days: 1
+          if-no-files-found: error
 
  
