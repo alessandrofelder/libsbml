@@ -1,4 +1,4 @@
-name: CMake (create and store Windows artefact)
+name: Nightly build (binaries)
 
 on:
   push:
