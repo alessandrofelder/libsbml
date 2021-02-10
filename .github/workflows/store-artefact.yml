@@ -1,6 +1,7 @@
 name: CMake (create and store Windows artefact)
 
 on:
+  push:
   schedule:
     - cron: "15 17 * * *"
 
@@ -13,12 +14,12 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        platform: [windows-latest, macos-latest, ubuntu-16.04]
+        platform: [ubuntu-16.04]
         xml_parser_option: ["-DWITH_LIBXML"]
         with_namespace: ["True"]
         strict: ["True"]
         with_examples: ["True"]
-        package_option: ["-DWITH_ALL_PACKAGES=ON"]
+        package_option: ["-DWITH_ALL_PACKAGES=ON", "-DWITH_STABLE_PACKAGES=ON"]
     runs-on: ${{ matrix.platform }}
 
     steps:
@@ -126,13 +127,19 @@ jobs:
           cpack -G ZIP -C $BUILD_TYPE 
           mv libSBML-5.19.1-win64.zip libSBML-5.19.1-win64-nightly.zip
 
+      - name: Set artefact name suffix to stable
+        if: matrix.platform != 'windows-latest' && matrix.package_option=='-DWITH_STABLE_PACKAGES=ON'
+        shell: bash
+        run: |
+          echo "ARTEFACT_NAME_SUFFIX='-stable-packages'" >> "${GITHUB_ENV}"
+
       - name: Package executable (Ubuntu)
         if: matrix.platform == 'ubuntu-latest'
         working-directory: ${{runner.workspace}}/build
         shell: bash
         run: |
           cpack -G ZIP -C $BUILD_TYPE
-          mv libSBML-5.19.1-Linux.zip libSBML-5.19.1-Linux-nightly.zip
+          mv libSBML-5.19.1-Linux.zip libSBML-5.19.1-Linux-nightly${ARTEFACT_NAME_SUFFIX}.zip
           cpack -G TGZ -C $BUILD_TYPE
           mv libSBML-5.19.1-Linux.tar.gz libSBML-5.19.1-Linux-nightly.tar.gz
 
