@@ -120,11 +120,17 @@ jobs:
         run: ctest -C $BUILD_TYPE
 
       ### package artefacts ###
-      - name: Set artefact name suffix to stable
+      - name: Set artefact name suffix to stable packages
         if: matrix.package_option=='-DWITH_STABLE_PACKAGES=ON'
         shell: bash
         run: |
-          echo "ARTEFACT_NAME_SUFFIX='-stable-packages'" >> "${GITHUB_ENV}"
+          echo "ARTEFACT_NAME_SUFFIX=-stable-packages" >> "${GITHUB_ENV}"
+
+      - name: Set artefact name suffix to all packages
+        if: matrix.package_option=='-DWITH_STABLE_PACKAGES=ON'
+        shell: bash
+        run: |
+          echo "ARTEFACT_NAME_SUFFIX=-all-packages" >> "${GITHUB_ENV}"
 
       #### Windows ####
       - name: Package executable (Windows)
@@ -179,22 +185,22 @@ jobs:
           cpack -G ZIP -C $BUILD_TYPE
           mv libSBML-5.19.1-Linux.zip libSBML-5.19.1-Linux-nightly${ARTEFACT_NAME_SUFFIX}.zip
           cpack -G TGZ -C $BUILD_TYPE
-          mv libSBML-5.19.1-Linux.tar.gz libSBML-5.19.1-Linux-nightly.tar.gz
+          mv libSBML-5.19.1-Linux.tar.gz libSBML-5.19.1-Linux-nightly${ARTEFACT_NAME_SUFFIX}.tar.gz
 
       - name: Upload Ubuntu binary archive (zip)
         if: matrix.platform == 'ubuntu-16.04'
         uses: actions/upload-artifact@v2
         with:
-          name: Ubuntu nightly (zip)
-          path: ${{runner.workspace}}/build/libSBML-5.19.1-Linux-nightly.zip
+          name: Ubuntu nightly (zip, ${{env.ARTEFACT_NAME_SUFFIX}})
+          path: ${{runner.workspace}}/build/libSBML-5.19.1-Linux-nightly${{env.ARTEFACT_NAME_SUFFIX}}.zip
           retention-days: 1
 
       - name: Upload Ubuntu binary archive (tar.gz)
         if: matrix.platform == 'ubuntu-16.04'
         uses: actions/upload-artifact@v2
         with:
-          name: Ubuntu nightly (tar.gz)
-          path: ${{runner.workspace}}/build/libSBML-5.19.1-Linux-nightly.tar.gz
+          name: Ubuntu nightly (tar.gz) 
+          path: ${{runner.workspace}}/build/libSBML-5.19.1-Linux-nightly${{env.ARTEFACT_NAME_SUFFIX}}.tar.gz
           retention-days: 1
 
  
