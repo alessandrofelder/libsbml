@@ -2,7 +2,7 @@ name: Nightly build (binaries)
 
 on:
   schedule:
-    - cron: "15 17 * * *"
+    - cron: "0 5 * * *"
 
 env:
   BUILD_TYPE: Release
@@ -123,13 +123,13 @@ jobs:
         if: matrix.package_option=='-DWITH_STABLE_PACKAGES=ON'
         shell: bash
         run: |
-          echo "ARTEFACT_NAME_SUFFIX=-stable-packages" >> "${GITHUB_ENV}"
+          echo "ARTEFACT_NAME_SUFFIX=stable-packages" >> "${GITHUB_ENV}"
 
       - name: Set artefact name suffix to all packages
         if: matrix.package_option=='-DWITH_ALL_PACKAGES=ON'
         shell: bash
         run: |
-          echo "ARTEFACT_NAME_SUFFIX=-all-packages" >> "${GITHUB_ENV}"
+          echo "ARTEFACT_NAME_SUFFIX=all-packages" >> "${GITHUB_ENV}"
 
       #### Windows ####
       - name: Package executable (Windows)
@@ -185,9 +185,9 @@ jobs:
         shell: bash
         run: |
           cpack -G ZIP -C $BUILD_TYPE
-          mv libSBML-5.19.1-Linux.zip libSBML-5.19.1-Linux-nightly${ARTEFACT_NAME_SUFFIX}.zip
+          mv libSBML-5.19.1-Linux.zip libSBML-5.19.1-Linux-nightly-${ARTEFACT_NAME_SUFFIX}.zip
           cpack -G TGZ -C $BUILD_TYPE
-          mv libSBML-5.19.1-Linux.tar.gz libSBML-5.19.1-Linux-nightly${ARTEFACT_NAME_SUFFIX}.tar.gz
+          mv libSBML-5.19.1-Linux.tar.gz libSBML-5.19.1-Linux-nightly-${ARTEFACT_NAME_SUFFIX}.tar.gz
 
       - name: Upload Ubuntu binary archive (zip)
         if: matrix.platform == 'ubuntu-16.04'
