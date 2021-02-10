@@ -1,7 +1,6 @@
 name: Nightly build (binaries)
 
 on:
-  push:
   schedule:
     - cron: "15 17 * * *"
 
@@ -127,7 +126,7 @@ jobs:
           echo "ARTEFACT_NAME_SUFFIX=-stable-packages" >> "${GITHUB_ENV}"
 
       - name: Set artefact name suffix to all packages
-        if: matrix.package_option=='-DWITH_STABLE_PACKAGES=ON'
+        if: matrix.package_option=='-DWITH_ALL_PACKAGES=ON'
         shell: bash
         run: |
           echo "ARTEFACT_NAME_SUFFIX=-all-packages" >> "${GITHUB_ENV}"
@@ -195,7 +194,7 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: Ubuntu nightly (zip, ${{env.ARTEFACT_NAME_SUFFIX}})
-          path: ${{runner.workspace}}/build/libSBML-5.19.1-Linux-nightly${{env.ARTEFACT_NAME_SUFFIX}}.zip
+          path: ${{runner.workspace}}/build/libSBML-5.19.1-Linux-nightly-${{env.ARTEFACT_NAME_SUFFIX}}.zip
           retention-days: 1
           if-no-files-found: error
 
@@ -203,8 +202,8 @@ jobs:
         if: matrix.platform == 'ubuntu-16.04'
         uses: actions/upload-artifact@v2
         with:
-          name: Ubuntu nightly (tar.gz) 
-          path: ${{runner.workspace}}/build/libSBML-5.19.1-Linux-nightly${{env.ARTEFACT_NAME_SUFFIX}}.tar.gz
+          name: Ubuntu nightly (tar.gz, ${{env.ARTEFACT_NAME_SUFFIX}}) 
+          path: ${{runner.workspace}}/build/libSBML-5.19.1-Linux-nightly-${{env.ARTEFACT_NAME_SUFFIX}}.tar.gz
           retention-days: 1
           if-no-files-found: error
 
