@@ -186,6 +186,9 @@ jobs:
           retention-days: 1
           if-no-files-found: error
 
+      - name: Setup tmate session
+        uses: mxschmitt/action-tmate@v3
+      
       #### Ubuntu 16.04 ####
       - name: Package executable (Ubuntu 16.04)
         if: matrix.platform == 'ubuntu-16.04'
