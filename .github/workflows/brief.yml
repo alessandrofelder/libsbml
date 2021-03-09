@@ -23,7 +23,8 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
-
+      - uses: seanmiddleditch/gha-setup-ninja@master
+      
       ### configure the operating system ###
       - name: Cache Windows dependencies and SWIG
         # On Windows, the dependencies live inside the source folder, ie `.`.
