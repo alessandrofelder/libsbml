@@ -57,7 +57,7 @@ jobs:
         shell: bash
         run: |
           echo $GITHUB_WORKSPACE"/swig/swigwin-3.0.12/" >> $GITHUB_PATH
-          echo RUNTIME_LINKING_OPTION="-DWITH_STATIC_RUNTIME=ON" >> "${GITHUB_ENV}"
+          echo RUNTIME_LINKING_OPTION="-DWITH_STATIC_RUNTIME=ON -DCMAKE_C_COMPILER=gcc -DCMAKE_CXX_COMPILER=g++ " >> "${GITHUB_ENV}"
 
       - name: Install Ubuntu dependencies
         # ubuntu already has SWIG and libxml2 by default
