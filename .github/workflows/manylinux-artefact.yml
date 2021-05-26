@@ -78,6 +78,6 @@ jobs:
           cmake --build . --config $BUILD_TYPE
 
       - name: Test
-        working-directory: ${{runner.workspace}}/build
-        shell: bash
-        run: ctest -V -C $BUILD_TYPE
+        run: |
+          cd build
+          ctest -V -C $BUILD_TYPE
