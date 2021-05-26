@@ -44,7 +44,7 @@ jobs:
           uname -a
           git --version
           git clone https://github.com/alessandrofelder/libsbml.git
-          yum install -y libxml2-devel swig check java
+          yum install -y libxml2-devel swig check java-devel
           ls /usr/local/cmake-2.8.10.2/bin
           alias cmake=/usr/local/cmake-2.8.10.2/bin/cmake
           cmake --version
@@ -61,3 +61,5 @@ jobs:
           ${{matrix.language_bindings}} \
           -DWITH_STATIC_RUNTIME=ON \
           -DPYTHON_USE_DYNAMIC_LOOKUP=ON
+          cmake --build . --config $BUILD_TYPE
+
