@@ -43,11 +43,14 @@ jobs:
           curl -L https://sourceforge.net/projects/swig/files/swig/swig-4.0.2/swig-4.0.2.tar.gz/download > swig.tar.gz
           tar -zxvf swig.tar.gz
           cd swig
+          ./configure --prefix=/usr/local/swig
           make
           make install
           ls .
           pwd
-          swig --version
+          ls /usr/local/swig/
+          ls /usr/local/swig/bin/
+          swig -version
 
       - name: What OS is running
         run: |
