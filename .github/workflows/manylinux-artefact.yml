@@ -64,6 +64,7 @@ jobs:
           cd build
           cmake ../libsbml \
           -DSWIG_DIR=/usr/local/swig/ \
+          -DSWIG_EXECUTABLE=/usr/local/swig/bin/swig/ \
           -DCMAKE_BUILD_TYPE=$BUILD_TYPE \
           -DCMAKE_CXX_STANDARD=${{matrix.cpp_standard}} \
           -DWITH_CHECK=True \
