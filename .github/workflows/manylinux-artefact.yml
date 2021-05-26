@@ -39,15 +39,15 @@ jobs:
           alias swig=/usr/local/swig/bin/swig
           swig -version
 
-      - name: install CMake 2.8 from source
+      - name: install CMake v3.12 from source
         run: |
-          curl -L http://www.cmake.org/files/v2.8/cmake-2.8.10.2.tar.gz > cmake-2.8.10.2.tar.gz
-          tar -zxvf cmake-2.8.10.2.tar.gz
-          cd cmake-2.8.10.2
-          ./configure --prefix=/usr/local/cmake-2.8.10.2
+          curl -L https://cmake.org/files/v3.12/cmake-3.12.4.tar.gz > cmake-3.12.4.tar.gz
+          tar -zxvf cmake-3.12.4.tar.gz
+          cd cmake-3.12.4
+          ./configure --prefix=/usr/local/cmake-3.12.4
           make
           make install
-          alias cmake=/usr/local/cmake-2.8.10.2/bin/cmake
+          alias cmake=/usr/local/cmake-3.12.4/bin/cmake
           cmake --version
 
       - name: What OS is running
@@ -58,7 +58,7 @@ jobs:
           yum install -y libxml2-devel check java-devel
           alias swig=/usr/local/swig/bin/swig
           swig -version
-          alias cmake=/usr/local/cmake-2.8.10.2/bin/cmake
+          alias cmake=/usr/local/cmake-3.12.4/bin/cmake
           cmake --version
           mkdir build
           cd build
