@@ -22,8 +22,7 @@ jobs:
         with_examples: ["True"]
         package_option: ["-DWITH_STABLE_PACKAGES=ON"]
         cpp_standard: [98]
-        language_bindings:
-          ["-DWITH_JAVA=True -DWITH_PYTHON=True"]
+        language_bindings: ["-DWITH_JAVA=True -DWITH_PYTHON=True"]
     runs-on: ${{ matrix.platform }}
     container: quay.io/pypa/manylinux1_x86_64
 
@@ -48,8 +47,8 @@ jobs:
           ls /usr/local/cmake-2.8.10.2/bin
           alias cmake=/usr/local/cmake-2.8.10.2/bin/cmake
           cmake --version
-          curl -L https://sourceforge.net/projects/swig/files/swig/swig-4.0.2/swig-4.0.2.tar.gz/download > swig.zip
-          unzip -o swig.zip -d swig
+          curl -L https://sourceforge.net/projects/swig/files/swig/swig-4.0.2/swig-4.0.2.tar.gz/download > swig.tar.gz
+          tar -zxvf swig.tar.gz
           ls swig
           mkdir build
           cd build
@@ -65,4 +64,3 @@ jobs:
           -DWITH_STATIC_RUNTIME=ON \
           -DPYTHON_USE_DYNAMIC_LOOKUP=ON
           cmake --build . --config $BUILD_TYPE
-
