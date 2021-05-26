@@ -27,17 +27,6 @@ jobs:
     container: quay.io/pypa/manylinux1_x86_64
 
     steps:
-      - name: install CMake 2.8 from source
-        run: |
-          curl -L http://www.cmake.org/files/v2.8/cmake-2.8.10.2.tar.gz > cmake-2.8.10.2.tar.gz
-          tar -zxvf cmake-2.8.10.2.tar.gz
-          cd cmake-2.8.10.2
-          ./configure --prefix=/usr/local/cmake-2.8.10.2
-          make
-          make install
-          alias cmake=/usr/local/cmake-2.8.10.2/bin/cmake
-          cmake --version
-
       - name: install Swig 4 from source
         run: |
           curl -L https://sourceforge.net/projects/swig/files/swig/swig-4.0.2/swig-4.0.2.tar.gz/download > swig.tar.gz
@@ -51,6 +40,17 @@ jobs:
           ls /usr/local/swig/
           ls /usr/local/swig/bin/
           swig -version
+
+      - name: install CMake 2.8 from source
+        run: |
+          curl -L http://www.cmake.org/files/v2.8/cmake-2.8.10.2.tar.gz > cmake-2.8.10.2.tar.gz
+          tar -zxvf cmake-2.8.10.2.tar.gz
+          cd cmake-2.8.10.2
+          ./configure --prefix=/usr/local/cmake-2.8.10.2
+          make
+          make install
+          alias cmake=/usr/local/cmake-2.8.10.2/bin/cmake
+          cmake --version
 
       - name: What OS is running
         run: |
