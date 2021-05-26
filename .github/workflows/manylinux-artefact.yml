@@ -76,3 +76,8 @@ jobs:
           -DWITH_STATIC_RUNTIME=ON \
           -DPYTHON_USE_DYNAMIC_LOOKUP=ON
           cmake --build . --config $BUILD_TYPE
+
+      - name: Test
+        working-directory: ${{runner.workspace}}/build
+        shell: bash
+        run: ctest -V -C $BUILD_TYPE
