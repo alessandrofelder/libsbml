@@ -36,6 +36,7 @@ jobs:
           ./configure --prefix=/usr/local/swig
           make
           make install
+          alias swig=/usr/local/swig/bin/swig
           swig -version
 
       - name: install CMake 2.8 from source
