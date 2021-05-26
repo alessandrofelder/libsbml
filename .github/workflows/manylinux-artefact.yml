@@ -44,10 +44,13 @@ jobs:
           uname -a
           git --version
           git clone https://github.com/alessandrofelder/libsbml.git
-          yum install -y libxml2-devel swig check java-devel
+          yum install -y libxml2-devel check java-devel
           ls /usr/local/cmake-2.8.10.2/bin
           alias cmake=/usr/local/cmake-2.8.10.2/bin/cmake
           cmake --version
+          curl -L https://sourceforge.net/projects/swig/files/swig/swig-4.0.2/swig-4.0.2.tar.gz/download > swig.zip
+          unzip -o swig.zip -d swig
+          ls swig
           mkdir build
           cd build
           cmake ../libsbml \
