@@ -35,7 +35,6 @@ jobs:
           git clone https://github.com/alessandrofelder/libsbml.git
           yum install -y cmake
           yum install -y libxml2-devel
-          yum list libxml
           cmake --version
           mkdir build
           cd build
