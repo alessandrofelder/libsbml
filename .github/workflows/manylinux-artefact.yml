@@ -36,6 +36,7 @@ jobs:
           ./configure --prefix=/usr/local/cmake-2.8.10.2
           make
           make install
+          alias cmake=/usr/local/cmake-2.8.10.2/bin/cmake
           cmake --version
 
       - name: What OS is running
