@@ -38,6 +38,17 @@ jobs:
           alias cmake=/usr/local/cmake-2.8.10.2/bin/cmake
           cmake --version
 
+      - name: install Swig 4 from source
+        run: |
+          curl -L https://sourceforge.net/projects/swig/files/swig/swig-4.0.2/swig-4.0.2.tar.gz/download > swig.tar.gz
+          tar -zxvf swig.tar.gz
+          cd swig
+          make
+          make install
+          ls .
+          pwd
+          swig --version
+
       - name: What OS is running
         run: |
           uname -a
@@ -47,9 +58,6 @@ jobs:
           ls /usr/local/cmake-2.8.10.2/bin
           alias cmake=/usr/local/cmake-2.8.10.2/bin/cmake
           cmake --version
-          curl -L https://sourceforge.net/projects/swig/files/swig/swig-4.0.2/swig-4.0.2.tar.gz/download > swig.tar.gz
-          tar -zxvf swig.tar.gz
-          ls swig
           mkdir build
           cd build
           cmake ../libsbml \
