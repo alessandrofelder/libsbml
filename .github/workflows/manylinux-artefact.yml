@@ -56,7 +56,8 @@ jobs:
           git --version
           git clone https://github.com/alessandrofelder/libsbml.git
           yum install -y libxml2-devel check java-devel
-          ls /usr/local/cmake-2.8.10.2/bin
+          alias swig=/usr/local/swig/bin/swig
+          swig -version
           alias cmake=/usr/local/cmake-2.8.10.2/bin/cmake
           cmake --version
           mkdir build
