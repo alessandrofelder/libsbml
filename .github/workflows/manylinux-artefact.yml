@@ -22,7 +22,7 @@ jobs:
         with_examples: ["True"]
         package_option: ["-DWITH_STABLE_PACKAGES=ON"]
         cpp_standard: [98]
-        language_bindings: ["-DWITH_JAVA=True -DWITH_PYTHON=True"]
+        language_bindings: ["-DWITH_JAVA=True"]
     runs-on: ${{ matrix.platform }}
     container: quay.io/pypa/manylinux1_x86_64
 
