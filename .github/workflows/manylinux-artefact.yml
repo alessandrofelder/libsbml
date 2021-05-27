@@ -36,7 +36,7 @@ jobs:
           ./configure --prefix=/usr/local/swig
           make
           make install
-          alias swig=/usr/local/swig/bin/swig
+          echo "/usr/local/swig/bin/" >> $GITHUB_PATH
           swig -version
 
       - name: install CMake v3.12 from source
@@ -47,18 +47,19 @@ jobs:
           ./configure --prefix=/usr/local/cmake-3.12.4
           make
           make install
-          export PATH=/usr/local/cmake-3.12.4/bin/:$PATH
+          echo "/usr/local/cmake-3.12.4/bin/" >> $GITHUB_PATH
           cmake --version
 
-      - name: What OS is running
+      - name: Environment checks
         run: |
           uname -a
           git --version
-          git clone https://github.com/alessandrofelder/libsbml.git
-          yum install -y libxml2-devel check java-devel
-          alias swig=/usr/local/swig/bin/swig
           swig -version
           cmake --version
+      - name: Install yum dependencies and build
+        run: |
+          git clone https://github.com/alessandrofelder/libsbml.git
+          yum install -y libxml2-devel check java-devel
           mkdir build
           cd build
           cmake ../libsbml \
