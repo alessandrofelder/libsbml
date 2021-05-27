@@ -33,10 +33,11 @@ jobs:
           curl -L https://sourceforge.net/projects/swig/files/swig/swig-4.0.2/swig-4.0.2.tar.gz/download > swig.tar.gz
           tar -zxvf swig.tar.gz
           cd swig-4.0.2/
-          ./configure --prefix=/usr/local/swig
+          ./configure --prefix=./swig
           make
           make install
-          echo "/usr/local/swig/bin/" >> $GITHUB_PATH
+          echo pwd
+          echo "{pwd}/swig/bin/" >> $GITHUB_PATH
           echo "$PATH"
           swig -version
 
