@@ -37,6 +37,7 @@ jobs:
           make
           make install
           echo "/usr/local/swig/bin/" >> $GITHUB_PATH
+          echo "$PATH"
           swig -version
 
       - name: install CMake v3.12 from source
@@ -48,11 +49,13 @@ jobs:
           make
           make install
           echo "/usr/local/cmake-3.12.4/bin/" >> $GITHUB_PATH
+          echo "$PATH"
           cmake --version
 
       - name: Environment checks
         run: |
           uname -a
+          echo "$PATH"
           git --version
           swig -version
           cmake --version
