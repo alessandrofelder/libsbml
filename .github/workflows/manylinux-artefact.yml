@@ -47,7 +47,7 @@ jobs:
           ./configure --prefix=/usr/local/cmake-3.12.4
           make
           make install
-          alias cmake=/usr/local/cmake-3.12.4/bin/cmake
+          export PATH=/usr/local/cmake-3.12.4/bin/:$PATH
           cmake --version
 
       - name: What OS is running
