@@ -32,14 +32,17 @@ jobs:
           yum install -y pcre-devel
           curl -L https://sourceforge.net/projects/swig/files/swig/swig-4.0.2/swig-4.0.2.tar.gz/download > swig.tar.gz
           tar -zxvf swig.tar.gz > bla.txt
-          rm bla.txt
-          cd swig-4.0.2/
+          mkdir swig-build
+          cd swig-build
+          export $swig-build-dir=$(pwd)
+          cd ../swig-4.0.2/
           echo  $(pwd)
-          ./configure --prefix= $(pwd)
+          ./configure --prefix=$swig-build-dir
           make
           make install
           echo pwd
-          echo "$(pwd)/swig/bin/" >> $GITHUB_PATH
+          echo $swig-build-dir
+          echo "$swig-build-dir" >> $GITHUB_PATH
           echo "$PATH"
           swig -version
 
