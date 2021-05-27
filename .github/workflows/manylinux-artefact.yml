@@ -34,15 +34,15 @@ jobs:
           tar -zxvf swig.tar.gz > bla.txt
           mkdir swig-build
           cd swig-build
-          export swig-build-dir=$(pwd)
+          export swig_build_dir=$(pwd)
           cd ../swig-4.0.2/
           echo  $(pwd)
-          ./configure --prefix=$swig-build-dir
+          ./configure --prefix=$swig_build_dir
           make
           make install
           echo pwd
-          echo $swig-build-dir
-          echo "$swig-build-dir" >> $GITHUB_PATH
+          echo $swig_build_dir
+          echo "$swig_build_dir" >> $GITHUB_PATH
           echo "$PATH"
           swig -version
 
