@@ -31,9 +31,10 @@ jobs:
         run: |
           yum install -y pcre-devel
           curl -L https://sourceforge.net/projects/swig/files/swig/swig-4.0.2/swig-4.0.2.tar.gz/download > swig.tar.gz
-          tar -zxvf swig.tar.gz
+          tar -zxvf swig.tar.gz > bla.txt
+          rm bla.txt
           cd swig-4.0.2/
-          ./configure --prefix=./swig
+          ./configure --prefix=pwd
           make
           make install
           echo pwd
