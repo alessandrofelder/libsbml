@@ -58,7 +58,6 @@ jobs:
           yum install -y libxml2-devel check java-devel
           alias swig=/usr/local/swig/bin/swig
           swig -version
-          alias cmake=/usr/local/cmake-3.12.4/bin/cmake
           cmake --version
           mkdir build
           cd build
