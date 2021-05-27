@@ -34,12 +34,12 @@ jobs:
           tar -zxvf swig.tar.gz > bla.txt
           rm bla.txt
           cd swig-4.0.2/
-          echo "{pwd}"
-          ./configure --prefix="{pwd}"
+          echo  $(pwd)
+          ./configure --prefix= $(pwd)
           make
           make install
           echo pwd
-          echo "{pwd}/swig/bin/" >> $GITHUB_PATH
+          echo "$(pwd)/swig/bin/" >> $GITHUB_PATH
           echo "$PATH"
           swig -version
 
