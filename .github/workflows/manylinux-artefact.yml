@@ -80,4 +80,5 @@ jobs:
       - name: Test
         run: |
           cd build
+          alias ctest=/usr/local/cmake-3.12.4/bin/ctest
           ctest -V -C $BUILD_TYPE
