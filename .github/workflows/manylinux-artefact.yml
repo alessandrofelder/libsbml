@@ -42,7 +42,7 @@ jobs:
           make install
           echo pwd
           echo $swig_build_dir
-          echo "$swig_build_dir" >> $GITHUB_PATH
+          echo $swig_build_dir >> $GITHUB_PATH
           echo "$PATH"
           swig -version
 
