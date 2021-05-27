@@ -34,7 +34,7 @@ jobs:
           tar -zxvf swig.tar.gz > bla.txt
           mkdir swig-build
           cd swig-build
-          export $swig-build-dir=$(pwd)
+          export swig-build-dir=$(pwd)
           cd ../swig-4.0.2/
           echo  $(pwd)
           ./configure --prefix=$swig-build-dir
