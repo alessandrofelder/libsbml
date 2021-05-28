@@ -85,7 +85,6 @@ jobs:
 
       ### create binaries ###
       - name: Install
-        shell: bash
         run: |
           cd build
           alias cmake=/usr/local/cmake-3.12.4/bin/cmake
