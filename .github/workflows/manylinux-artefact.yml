@@ -44,6 +44,8 @@ jobs:
           /opt/python/cp38-cp38/bin/pip install cmake
           ln -s /opt/python/cp38-cp38/bin/cmake /usr/bin/cmake
           cmake --version
+          ln -s /opt/python/cp38-cp38/bin/ctest /usr/bin/ctest
+          ctest --version
 
       - name: What OS is running
         run: |
