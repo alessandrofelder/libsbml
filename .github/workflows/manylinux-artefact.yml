@@ -27,7 +27,7 @@ jobs:
     container:
       image: quay.io/pypa/manylinux1_x86_64
       volumes:
-        - fromcontainer:/tohost
+        - ~/fromcontainer:/tohost
 
     steps:
       - name: dummy text file
@@ -52,6 +52,7 @@ jobs:
     steps:
       - name: Check mounted volume exists
         run: |
+          ls ~/fromcontainer
           find / -name 'dummy.txt'
           find / -name 'fromcontai*'
 
@@ -61,6 +62,6 @@ jobs:
           name:
             Centos5 nightly (zip, libSBML ${{env.LIBSBML_VERSION}},
             ${{env.ARTIFACT_NAME_SUFFIX}})
-          path: /fromcontainer/install/*
+          path: ~/fromcontainer/install/*
           retention-days: 1
           if-no-files-found: error
