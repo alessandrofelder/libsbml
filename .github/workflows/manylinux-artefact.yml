@@ -51,7 +51,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Check mounted volume exists
-        run: ls fromcontainer/*
+        run: |
+          find / -name 'install*'
+          find / -name 'fromcontai*'
 
       - name: Upload Centos5 binary archive
         uses: actions/upload-artifact@v2
