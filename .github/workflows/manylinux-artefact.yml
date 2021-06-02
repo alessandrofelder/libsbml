@@ -30,60 +30,13 @@ jobs:
         - /fromcontainer:/tohost
 
     steps:
-      - name: install Swig 4 from source
+      - name: dummy text file
         run: |
-          yum install -y pcre-devel
-          echo "SWIG_DIR=/usr/local/swig/" >> "${GITHUB_ENV}"
-          curl -L https://sourceforge.net/projects/swig/files/swig/swig-4.0.2/swig-4.0.2.tar.gz/download > swig.tar.gz
-          tar -zxvf swig.tar.gz
-          cd swig-4.0.2/
-          ./configure --disable-dependency-tracking --prefix=$SWIG_DIR
-          make clean
-          make -j 2
-          make install
-          swig -version
-
-      - name: install CMake using pip
-        run: |
-          /opt/python/cp38-cp38/bin/pip install cmake
-          ln -s /opt/python/cp38-cp38/bin/cmake /usr/bin/cmake
-          cmake --version
-          ln -s /opt/python/cp38-cp38/bin/ctest /usr/bin/ctest
-          ctest --version
-
-      - name: What OS is running
-        run: |
-          uname -a
-          git --version
-          git clone https://github.com/alessandrofelder/libsbml.git
-          yum install -y libxml2-devel check java-devel
-          swig -version
-          cmake --version
-          mkdir build
-          cd build
-          cmake ../libsbml \
-          -DCMAKE_BUILD_TYPE=$BUILD_TYPE \
-          -DCMAKE_CXX_STANDARD=${{matrix.cpp_standard}} \
-          -DWITH_CHECK=True \
-          -DWITH_CPP_NAMESPACE=${{matrix.with_namespace}} \
-          -DLIBSBML_USE_STRICT_INCLUDES=${{matrix.strict}} \
-          -DWITH_EXAMPLES=${{matrix.with_examples}} \
-          ${{matrix.package_option}} \
-          ${{matrix.language_bindings}} \
-          -DWITH_STATIC_RUNTIME=ON \
-          -DPYTHON_USE_DYNAMIC_LOOKUP=ON
-          cmake --build . --config $BUILD_TYPE
-
-      - name: Test
-        run: |
-          cd build
-          ctest -V -C $BUILD_TYPE
-
-      ### create binaries ###
-      - name: Install
-        run: |
-          cd build
-          cmake --install . --config $BUILD_TYPE
+          mkdir install
+          cd install
+          echo "dummy data" >> dummy.txt
+          ls -a
+          cat dummy.txt
 
       - name: Copy binaries to mounted volume
         run: |
