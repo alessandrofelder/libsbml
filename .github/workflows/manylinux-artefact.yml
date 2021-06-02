@@ -27,7 +27,7 @@ jobs:
     container:
       image: quay.io/pypa/manylinux1_x86_64
       volumes:
-        - /fromcontainer:/tohost
+        - fromcontainer:/tohost
 
     steps:
       - name: dummy text file
@@ -51,7 +51,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Check mounted volume exists
-        run: ls /fromcontainer/*
+        run: ls fromcontainer/*
 
       - name: Upload Centos5 binary archive
         uses: actions/upload-artifact@v2
