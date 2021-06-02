@@ -45,24 +45,9 @@ jobs:
           cp -r install/ /tohost
           ls -a /tohost
 
-      ### setup artifact environment ###
-      - name: Store libSBML version in environment
-        run: |
-          cd libsbml
-          echo  "LIBSBML_VERSION=$( cat VERSION.txt)"  >> "${GITHUB_ENV}"
-
-      - name: Set artifact name suffix to stable packages
-        if: matrix.package_option=='-DWITH_STABLE_PACKAGES=ON'
-        run: |
-          echo "ARTIFACT_NAME_SUFFIX=stable-packages" >> "${GITHUB_ENV}"
-
-      - name: Set artifact name suffix to all packages
-        if: matrix.package_option=='-DWITH_ALL_PACKAGES=ON'
-        run: |
-          echo "ARTIFACT_NAME_SUFFIX=all-packages" >> "${GITHUB_ENV}"
-
   upload:
     name: Upload test
+    needs: build
     runs-on: ubuntu-latest
     steps:
       - name: Check mounted volume exists
