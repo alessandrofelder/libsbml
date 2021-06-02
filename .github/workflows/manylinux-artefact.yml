@@ -27,7 +27,7 @@ jobs:
     container:
       image: quay.io/pypa/manylinux1_x86_64
       volumes:
-        - ~/fromcontainer:/tohost
+        - /opt/:/tohost
 
     steps:
       - name: dummy text file
@@ -52,9 +52,8 @@ jobs:
     steps:
       - name: Check mounted volume exists
         run: |
-          ls ~/fromcontainer
-          find / -name 'dummy.txt'
-          find / -name 'fromcontai*'
+          ls /opt/
+          ls /opt/install/
 
       - name: Upload Centos5 binary archive
         uses: actions/upload-artifact@v2
@@ -62,6 +61,6 @@ jobs:
           name:
             Centos5 nightly (zip, libSBML ${{env.LIBSBML_VERSION}},
             ${{env.ARTIFACT_NAME_SUFFIX}})
-          path: ~/fromcontainer/install/*
+          path: /opt/install/*
           retention-days: 1
           if-no-files-found: error
