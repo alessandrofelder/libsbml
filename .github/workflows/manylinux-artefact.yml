@@ -52,7 +52,7 @@ jobs:
     steps:
       - name: Check mounted volume exists
         run: |
-          find / -name 'install*'
+          find / -name 'dummy.txt'
           find / -name 'fromcontai*'
 
       - name: Upload Centos5 binary archive
