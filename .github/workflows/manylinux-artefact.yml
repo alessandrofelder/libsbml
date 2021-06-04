@@ -1,32 +1,16 @@
-name: Test Manylinux build
+name: Simple persistence test
 
 on: [push]
-
-env:
-  BUILD_TYPE: Release
 
 jobs:
   build:
     name:
-      ${{ matrix.platform }}, Parser option ${{ matrix.xml_parser_option }},
-      with namespaces ${{ matrix.with_namespace}}, strict includes ${{
-      matrix.strict }}, with examples ${{ matrix.with_examples}}, package option
-      ${{ matrix.package_option}}
-    strategy:
-      fail-fast: false
-      matrix:
-        platform: [ubuntu-latest]
-        xml_parser_option: ["-DWITH_LIBXML"]
-        with_namespace: ["True"]
-        strict: ["True"]
-        with_examples: ["True"]
-        package_option: ["-DWITH_STABLE_PACKAGES=ON"]
-        cpp_standard: [98]
-        language_bindings: ["-DWITH_JAVA=True"]
-    runs-on: ${{ matrix.platform }}
+      mkdir and create a file
+    runs-on: ubuntu-latest
     steps:
       - name: dummy text file
         run: |
+          ls -a
           mkdir install
           cd install
           echo "dummy data" >> dummy.txt
@@ -34,11 +18,18 @@ jobs:
           cat dummy.txt
 
   upload:
-    name: Upload test
+    name: check whether folder and file are still there and try to upload
     needs: build
     runs-on: ubuntu-latest
     steps:
-      - name: Upload Centos5 binary archive
+      - name: explore with ls
+        run: |
+          ls -a
+          cd install
+          ls -a
+          cat dummy.txt
+
+      - name: Upload folder
         uses: actions/upload-artifact@v2
         with:
           name:
