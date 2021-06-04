@@ -100,12 +100,12 @@ jobs:
         run: |
           echo "ARTIFACT_NAME_SUFFIX=all-packages" >> "${GITHUB_ENV}"
 
-      - name: Upload Centos5 binary archive
+      - name: Upload Manylinux2010 binary archive
         uses: actions/upload-artifact@v1
         with:
           name:
-            Centos5 nightly (zip, libSBML ${{env.LIBSBML_VERSION}},
+            Manylinux2010 nightly (zip, libSBML ${{env.LIBSBML_VERSION}},
             ${{env.ARTIFACT_NAME_SUFFIX}})
-          path: install/*
+          path: ../install/*
           retention-days: 1
           if-no-files-found: error
