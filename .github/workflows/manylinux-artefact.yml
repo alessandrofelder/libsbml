@@ -24,7 +24,7 @@ jobs:
         cpp_standard: [98]
         language_bindings: ["-DWITH_JAVA=True"]
     runs-on: ${{ matrix.platform }}
-    container: quay.io/pypa/manylinux2014_x86_64
+    container: quay.io/pypa/manylinux2010_x86_64
 
     steps:
       - name: install Swig 4 from source
@@ -99,7 +99,7 @@ jobs:
           echo "ARTIFACT_NAME_SUFFIX=all-packages" >> "${GITHUB_ENV}"
 
       - name: Upload Centos5 binary archive
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v1
         with:
           name:
             Centos5 nightly (zip, libSBML ${{env.LIBSBML_VERSION}},
