@@ -24,11 +24,6 @@ jobs:
         cpp_standard: [98]
         language_bindings: ["-DWITH_JAVA=True"]
     runs-on: ${{ matrix.platform }}
-    container:
-      image: quay.io/pypa/manylinux1_x86_64
-      volumes:
-        - /opt/:/tohost
-
     steps:
       - name: dummy text file
         run: |
@@ -38,29 +33,16 @@ jobs:
           ls -a
           cat dummy.txt
 
-      - name: Copy binaries to mounted volume
-        run: |
-          ls -a install/*
-          ls -a /tohost
-          cp -r install/ /tohost
-          ls -a /tohost
-
   upload:
     name: Upload test
     needs: build
     runs-on: ubuntu-latest
     steps:
-      - name: Check mounted volume exists
-        run: |
-          ls /opt/
-          ls /opt/install/
-
       - name: Upload Centos5 binary archive
         uses: actions/upload-artifact@v2
         with:
           name:
-            Centos5 nightly (zip, libSBML ${{env.LIBSBML_VERSION}},
-            ${{env.ARTIFACT_NAME_SUFFIX}})
-          path: /opt/install/*
+            dummy-artefact
+          path: install/*
           retention-days: 1
           if-no-files-found: error
