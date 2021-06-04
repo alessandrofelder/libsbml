@@ -58,7 +58,9 @@ jobs:
           cmake --version
           mkdir build
           cd build
+          mkdir ../install
           cmake ../libsbml \
+          -DCMAKE_INSTALL_PREFIX=../install \
           -DCMAKE_BUILD_TYPE=$BUILD_TYPE \
           -DCMAKE_CXX_STANDARD=${{matrix.cpp_standard}} \
           -DWITH_CHECK=True \
@@ -81,11 +83,6 @@ jobs:
         run: |
           cd build
           cmake --install . --config $BUILD_TYPE
-          ls -a
-          cd ..
-          ls
-          cd libsbml
-          ls
 
       ### setup artifact environment ###
       - name: Store libSBML version in environment
