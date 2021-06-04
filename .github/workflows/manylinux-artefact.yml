@@ -53,7 +53,7 @@ jobs:
           uname -a
           git --version
           git clone https://github.com/alessandrofelder/libsbml.git
-          yum install -y libxml2-devel check java-devel
+          yum install -y libxml2-devel check-devel java-devel
           swig -version
           cmake --version
           mkdir build
