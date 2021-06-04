@@ -24,7 +24,7 @@ jobs:
         cpp_standard: [98]
         language_bindings: ["-DWITH_JAVA=True"]
     runs-on: ${{ matrix.platform }}
-    container: quay.io/pypa/manylinux1_x86_64
+    container: quay.io/pypa/manylinux2010_x86_64
 
     steps:
       - name: install Swig 4 from source
