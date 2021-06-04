@@ -10,9 +10,6 @@ jobs:
     steps:
       - name: dummy text file
         run: |
-          ls -a
-          mkdir install
-          cd install
           echo "dummy data" >> dummy.txt
           ls -a
           cat dummy.txt
@@ -25,15 +22,3 @@ jobs:
       - name: explore with ls
         run: |
           ls -a
-          cd install
-          ls -a
-          cat dummy.txt
-
-      - name: Upload folder
-        uses: actions/upload-artifact@v2
-        with:
-          name:
-            dummy-artefact
-          path: install/*
-          retention-days: 1
-          if-no-files-found: error
