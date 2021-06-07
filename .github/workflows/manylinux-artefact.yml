@@ -106,6 +106,6 @@ jobs:
           name:
             Manylinux2010 nightly (zip, libSBML ${{env.LIBSBML_VERSION}},
             ${{env.ARTIFACT_NAME_SUFFIX}})
-          path: ./install/*
+          path: ${{runner.workspace}}/install/*
           retention-days: 1
           if-no-files-found: error
