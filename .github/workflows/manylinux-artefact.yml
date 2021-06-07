@@ -59,30 +59,8 @@ jobs:
           mkdir build
           cd build
           mkdir ../install
-          cmake ../libsbml \
-          -DCMAKE_INSTALL_PREFIX=../install \
-          -DCMAKE_BUILD_TYPE=$BUILD_TYPE \
-          -DCMAKE_CXX_STANDARD=${{matrix.cpp_standard}} \
-          -DWITH_CHECK=True \
-          -DWITH_CPP_NAMESPACE=${{matrix.with_namespace}} \
-          -DLIBSBML_USE_STRICT_INCLUDES=${{matrix.strict}} \
-          -DWITH_EXAMPLES=${{matrix.with_examples}} \
-          ${{matrix.package_option}} \
-          ${{matrix.language_bindings}} \
-          -DWITH_STATIC_RUNTIME=ON \
-          -DPYTHON_USE_DYNAMIC_LOOKUP=ON
-          cmake --build . --config $BUILD_TYPE
-
-      - name: Test
-        run: |
-          cd build
-          ctest -V -C $BUILD_TYPE
-
-      ### create binaries ###
-      - name: Install
-        run: |
-          cd build
-          cmake --install . --config $BUILD_TYPE
+          echo "bla" >> dummy.txt
+          cat dummy.txt
 
       ### setup artifact environment ###
       - name: Store libSBML version in environment
