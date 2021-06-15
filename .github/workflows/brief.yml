@@ -74,10 +74,11 @@ jobs:
         run: |
           echo RUNTIME_LINKING_OPTION="-DWITH_STATIC_RUNTIME=ON" >> "${GITHUB_ENV}"
           ./dev/utilities/expdef/expdef64.exe -dRlib.def R.dll
+          export $SPECIFY_R_LIB_PATH="${GITHUB_WORKSPACE}/Rlib.def"
 
       - name: Setup tmate session
         uses: mxschmitt/action-tmate@v3
-        
+
       - name: Install Ubuntu dependencies
         # ubuntu already has SWIG and libxml2 by default
         if: matrix.platform == 'ubuntu-16.04'
