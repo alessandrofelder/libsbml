@@ -74,7 +74,7 @@ jobs:
         run: |
           echo RUNTIME_LINKING_OPTION="-DWITH_STATIC_RUNTIME=ON" >> "${GITHUB_ENV}"
           ./dev/utilities/expdef/expdef64.exe -dRlib.def R.dll
-          echo SPECIFY_R_LIB_PATH="-DR_LIB="$GITHUB_WORKSPACE"/Rlib.def >> "${GITHUB_ENV}"
+          echo SPECIFY_R_LIB_PATH="-DR_LIB="$GITHUB_WORKSPACE"/Rlib.def" >> "${GITHUB_ENV}"
           echo "R_LIB: "
           echo ${SPECIFY_R_LIB_PATH}
 
