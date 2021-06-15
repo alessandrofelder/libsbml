@@ -74,7 +74,7 @@ jobs:
         run: |
           echo RUNTIME_LINKING_OPTION="-DWITH_STATIC_RUNTIME=ON" >> "${GITHUB_ENV}"
           ./dev/utilities/expdef/expdef64.exe -dRlib.def R.dll
-          export SPECIFY_R_LIB_PATH="${GITHUB_WORKSPACE}\Rlib.def"
+          echo SPECIFY_R_LIB_PATH="${GITHUB_WORKSPACE}\Rlib.def" >> "${GITHUB_ENV}"
 
       - name: Setup tmate session
         uses: mxschmitt/action-tmate@v3
