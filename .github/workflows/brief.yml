@@ -73,8 +73,8 @@ jobs:
         shell: bash
         run: |
           echo RUNTIME_LINKING_OPTION="-DWITH_STATIC_RUNTIME=ON" >> "${GITHUB_ENV}"
-          ./dev/utilities/expdef/expdef64.exe -dRlib.def R.dll
-          echo SPECIFY_R_LIB_PATH="-DR_LIB=${GITHUB_WORKSPACE}\Rlib.def" >> "${GITHUB_ENV}"
+          ./dev/utilities/expdef/expdef64.exe -dRlib.def -l R.dll
+          echo SPECIFY_R_LIB_PATH="-DR_LIB=${GITHUB_WORKSPACE}\Rlib.lib" >> "${GITHUB_ENV}"
           echo R_INCLUDE_PATH="/c/Program Files/R/R-4.1.0/include" >> "${GITHUB_ENV}"
 
       - name: Setup tmate session
