@@ -22,7 +22,10 @@ jobs:
         with_examples: ["True"]
         package_option: [""]
         language_bindings:
-          ["-DWITH_JAVA=True -DWITH_CSHARP=True -DWITH_PYTHON=True -DWITH_R=True"]
+          [
+            "-DWITH_JAVA=True -DWITH_CSHARP=True -DWITH_PYTHON=True
+            -DWITH_R=True",
+          ]
         cpp_standard: [98]
     runs-on: ${{ matrix.platform }}
 
