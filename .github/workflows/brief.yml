@@ -100,8 +100,8 @@ jobs:
         if: matrix.platform != 'windows-latest'
         shell: bash
         run:
-          echo R_PLATFORM_SPECIFIC_OPTIONS="-DWITH_CREATE_R_SOURCE
-          -DWITH_SKIP_R_BINARY" >> "${GITHUB_ENV}"
+          echo R_PLATFORM_SPECIFIC_OPTIONS="-DWITH_CREATE_R_SOURCE=ON
+          -DWITH_SKIP_R_BINARY=ON" >> "${GITHUB_ENV}"
 
       ### setup ccache, not on Windows ###
       - name: Prepare ccache timestamp
