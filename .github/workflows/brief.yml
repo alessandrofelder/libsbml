@@ -159,6 +159,12 @@ jobs:
         shell: bash
         run: cmake --build . --config $BUILD_TYPE
 
+      - name: Build Unix R binaries from source package
+        if: matrix.platform != 'windows-latest'
+        shell: bash
+        working-directory: ${{runner.workspace}}/build
+        run: ls ./src/bindings/r/out/
+
       ### run tests ###
       - name: Test
         working-directory: ${{runner.workspace}}/build
