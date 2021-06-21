@@ -163,7 +163,9 @@ jobs:
         if: matrix.platform != 'windows-latest'
         shell: bash
         working-directory: ${{runner.workspace}}/build
-        run: R CMD INSTALL --build ./src/bindings/r/out/libSBML_5.19.1.tar.gz
+        run: |
+          mkdir r-binaries
+          R CMD INSTALL -l r-binaries --build ./src/bindings/r/out/libSBML_5.19.1.tar.gz
 
       ### run tests ###
       - name: Test
