@@ -167,19 +167,13 @@ jobs:
           mkdir r-binaries
           R CMD INSTALL -l r-binaries --build ./src/bindings/r/out/libSBML_5.19.1.tar.gz
 
-      - name: Setup tmate session
-        if: matrix.platform == 'macos-latest'
-        uses: mxschmitt/action-tmate@v3
-
       - name: Build Unix R binaries from source package
         if: matrix.platform == 'macos-latest'
         shell: bash
         working-directory: ${{runner.workspace}}/build
         run: |
-          export CC=gcc-11
-          export CXX=gcc-11
           mkdir r-binaries
-          R CMD INSTALL -l r-binaries -stdlib=libc++ --build ./src/bindings/r/out/libSBML_5.19.1.tar.gz
+          R CMD INSTALL -l r-binaries --build ./src/bindings/r/out/libSBML_5.19.1.tar.gz
 
       ### run tests ###
       - name: Test
