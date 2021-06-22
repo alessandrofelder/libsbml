@@ -217,7 +217,7 @@ jobs:
           ctest --version
       - name: Install dependencies, configure, build
         run: |
-          yum install -y libxml2-devel check-devel java-devel mono-devel
+          yum install -y libxml2-devel check-devel java-devel mono-devel R
           cd ..
           mkdir build
           cd build
