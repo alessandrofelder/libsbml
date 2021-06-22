@@ -221,9 +221,7 @@ jobs:
           cd ..
           mkdir build
           cd build
-          mkdir ../install
           cmake ../libsbml \
-          -DCMAKE_INSTALL_PREFIX=../install \
           -DCMAKE_BUILD_TYPE=$BUILD_TYPE \
           -DCMAKE_CXX_STANDARD=${{matrix.cpp_standard}} \
           -DWITH_CHECK=True \
