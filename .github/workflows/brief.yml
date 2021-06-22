@@ -189,7 +189,7 @@ jobs:
         package_option: ["-DWITH_STABLE_PACKAGES=ON"]
         cpp_standard: [98, 20]
         language_bindings:
-          ["-DWITH_JAVA=True -DWITH_PYTHON=True -DWITH_CSHARP=True"]
+          ["-DWITH_JAVA=True -DWITH_PYTHON=True -DWITH_CSHARP=True -DWITH_R=True"]
         container: ["quay.io/pypa/manylinux2010_x86_64"]
     runs-on: ${{ matrix.platform }}
     container: ${{ matrix.container}}
@@ -230,6 +230,8 @@ jobs:
           -DWITH_EXAMPLES=${{matrix.with_examples}} \
           ${{matrix.package_option}} \
           ${{matrix.language_bindings}} \
+          -DWITH_CREATE_R_SOURCE=ON \
+          -DWITH_SKIP_R_BINARY=ON \
           -DPYTHON_EXECUTABLE=/opt/python/cp38-cp38/bin/python \
           -DPYTHON_INCLUDE_DIR=/opt/python/cp38-cp38/include/python3.8/ \
           -DWITH_STATIC_RUNTIME=ON \
