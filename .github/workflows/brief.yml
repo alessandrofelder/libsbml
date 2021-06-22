@@ -15,18 +15,18 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        platform: [macos-latest, ubuntu-16.04]
+        platform: [windows-latest, macos-latest, ubuntu-16.04]
         xml_parser_option: ["-DWITH_LIBXML"]
         with_namespace: ["True"]
         strict: ["True"]
         with_examples: ["True"]
-        package_option: [""]
+        package_option: ["-DWITH_ALL_PACKAGES=ON"]
         language_bindings:
           [
             "-DWITH_JAVA=True -DWITH_CSHARP=True -DWITH_PYTHON=True
             -DWITH_R=True",
           ]
-        cpp_standard: [98]
+        cpp_standard: [98, 20]
     runs-on: ${{ matrix.platform }}
 
     steps:
