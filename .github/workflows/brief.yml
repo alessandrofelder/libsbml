@@ -93,7 +93,7 @@ jobs:
         if: matrix.platform == 'macos-latest'
         shell: bash
         run: |
-          brew install check swig ccache
+          brew install check swig ccache gcc
           echo PYTHON_LINKING_OPTION="-DPYTHON_USE_DYNAMIC_LOOKUP=ON" >> "${GITHUB_ENV}"
 
       - name: Unix R options
@@ -166,6 +166,10 @@ jobs:
         run: |
           mkdir r-binaries
           R CMD INSTALL -l r-binaries --build ./src/bindings/r/out/libSBML_5.19.1.tar.gz
+
+      - name: Setup tmate session
+        if: matrix.platform == 'macos-latest'
+        uses: mxschmitt/action-tmate@v3
 
       - name: Build Unix R binaries from source package
         if: matrix.platform == 'macos-latest'
