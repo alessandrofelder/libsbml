@@ -93,7 +93,7 @@ jobs:
         if: matrix.platform == 'macos-latest'
         shell: bash
         run: |
-          brew install check swig ccache gcc
+          brew install check swig ccache
           echo PYTHON_LINKING_OPTION="-DPYTHON_USE_DYNAMIC_LOOKUP=ON" >> "${GITHUB_ENV}"
 
       - name: Unix R options
