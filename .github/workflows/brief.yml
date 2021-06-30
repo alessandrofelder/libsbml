@@ -159,14 +159,6 @@ jobs:
         shell: bash
         run: cmake --build . --config $BUILD_TYPE
 
-      - name: Build Unix R binaries from source package
-        if: matrix.platform != 'windows-latest'
-        shell: bash
-        working-directory: ${{runner.workspace}}/build
-        run: |
-          mkdir r-binaries
-          R CMD INSTALL -l r-binaries --build ./src/bindings/r/out/libSBML_5.19.1.tar.gz
-
       ### run tests ###
       - name: Test
         working-directory: ${{runner.workspace}}/build
