@@ -1,0 +1,24 @@
+name: Windows test R DLL
+
+on: [push]
+
+env:
+  BUILD_TYPE: Release
+
+jobs:
+  build:
+    name:
+      This is just a test!
+    strategy:
+      fail-fast: false
+      matrix:
+        platform: [windows-latest]
+    runs-on: ${{ matrix.platform }}
+
+    steps:
+      - name: list R stuff
+        shell: bash
+        run: |
+          which R
+          which R.dll
+
