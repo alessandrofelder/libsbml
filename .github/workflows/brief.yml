@@ -137,7 +137,7 @@ jobs:
           -DWITH_EXAMPLES=${{matrix.with_examples}} \
           ${{matrix.package_option}} \
           ${{matrix.language_bindings}} \
-          R_BINDINGS \
+          ${R_BINDINGS} \
           ${RUNTIME_LINKING_OPTION} \
           ${PYTHON_LINKING_OPTION}
 
